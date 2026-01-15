@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hành Trình Quyền Con Người - Ultra Compact Horizontal SPA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 280px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 140px;
+            max-height: 150px;
+        }
+        .horizontal-scroll-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        .horizontal-scroll-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .horizontal-scroll-container::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .era-card {
+            min-width: 280px;
+            max-width: 380px;
+            flex: 0 0 auto;
+            transition: all 0.3s ease;
+        }
+        @media (min-width: 768px) {
+            .era-card {
+                min-width: 440px;
+            }
+        }
+        .bg-pattern {
+            background-color: #f8fafc;
+            background-image: radial-gradient(#e2e8f0 0.5px, transparent 0.5px);
+            background-size: 10px 10px;
+        }
+        .legend-dot {
+            height: 6px;
+            width: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+        }
+        .custom-bullet {
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            margin-right: 4px;
+            margin-bottom: 2px;
+        }
+        html {
+            font-size: 150%;
+        }
+        .timeline-section {
+            position: relative;
+            width: 100%;
+            padding-top: 80px;
+        }
+        .timeline-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 6px;
+            background: #f8fafc;
+            z-index: 20;
+        }
+        .timeline-scroll {
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+        .timeline-scroll::-webkit-scrollbar {
+            height: 0;
+            display: none;
+        }
+        .timeline-content {
+            position: relative;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 40px;
+            right: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #ef4444, #f59e0b, #6366f1, #14b8a6);
+            border-radius: 2px;
+        }
+        .timeline-points {
+            position: relative;
+            height: 40px;
+        }
+        .timeline-point {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+            transform: translateX(-50%);
+        }
+        .timeline-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            margin-bottom: 8px;
+            transition: transform 0.3s ease;
+        }
+        .timeline-dot:hover {
+            transform: scale(1.3);
+        }
+        .timeline-label {
+            font-size: 11px;
+            font-weight: 800;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body class="bg-pattern text-slate-800 font-sans antialiased selection:bg-indigo-100">
+    <header class="bg-gradient-to-r from-indigo-700 via-pink-600 to-amber-500 text-white py-5 px-6 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-1 md:mb-0 text-center md:text-left">
+                <h1 class="text-2xl md:text-3xl font-black uppercase tracking-tighter">Hành Trình Nhân Quyền</h1>
+                <p class="text-[15px] opacity-90 font-light italic">Tiến hóa từ "Vật sở hữu" đến "Làm chủ xã hội".</p>
+            </div>
+            <!-- <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-md p-2 rounded-lg border border-white/20">
+                <div class="text-center px-2">
+                    <span class="block text-xl font-bold leading-none">6</span>
+                    <span class="text-[12px] uppercase tracking-widest font-bold opacity-70">Giai đoạn</span>
+                </div>
+            </div> -->
+        </div>
+    </header>
+    <main class="py-4">
+        <section class="mb-5 timeline-section">
+            <div class="timeline-wrapper">
+                <div class="timeline-scroll" id="timelineScroll">
+                    <div class="timeline-content">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-points">
+                            <div class="timeline-point">
+                                <div class="timeline-dot" style="background: #ef4444;"></div>
+                                <span class="timeline-label" style="color: #ef4444;">Nô lệ</span>
+                            </div>
+                            <div class="timeline-point">
+                                <div class="timeline-dot" style="background: #f59e0b;"></div>
+                                <span class="timeline-label" style="color: #f59e0b;">Phong kiến</span>
+                            </div>
+                            <div class="timeline-point">
+                                <div class="timeline-dot" style="background: #6366f1;"></div>
+                                <span class="timeline-label" style="color: #6366f1;">Tư bản</span>
+                            </div>
+                            <div class="timeline-point">
+                                <div class="timeline-dot" style="background: #14b8a6;"></div>
+                                <span class="timeline-label" style="color: #14b8a6;">XHCN</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="horizontal-scroll-container flex overflow-x-auto space-x-5 px-6 pb-4 snap-x" id="cardsContainer">
+                <article class="era-card bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden snap-center flex flex-col">
+                    <div class="h-1.5 bg-red-500"></div>
+                    <div class="p-5 flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <!-- <span class="px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-[8px] font-black uppercase tracking-widest">Giai đoạn 01</span> -->
+                                <h3 class="text-lg font-black text-slate-900 mt-0.5">Chiếm Hữu Nô Lệ</h3>
+                            </div>
+                            <span class="text-2xl">⛓️</span>
+                        </div>
+                        <p class="text-[15px] text-slate-600 mb-4 leading-tight italic">Xã hội phân cực cực đoan, nô lệ bị tước bỏ quyền làm người, chỉ được coi là vật sở hữu của chủ nô.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border-b border-slate-50 pb-4">
+                            <div class="chart-container"><canvas id="chartSlavery"></canvas></div>
+                            <div class="flex flex-col justify-center space-y-1.5">
+                                <p class="text-[12px] font-black text-red-600 uppercase">Chú giải:</p>
+                                <div class="text-[12px] text-slate-600 space-y-1 leading-tight">
+                                    <div><span class="legend-dot" style="background: #ef4444"></span> <strong>Chủ nô:</strong> Có quyền tuyệt đối.</div>
+                                    <div><span class="legend-dot" style="background: #e2e8f0"></span> <strong>Nô lệ:</strong> Không có quyền.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-2 mb-3">
+                            <p class="text-[13px] font-bold text-red-700 uppercase">📌 Thông tin chi tiết:</p>
+                            <div class="text-[13px] text-slate-700 space-y-1.5 leading-snug">
+                                <div><strong>Chủ thể chính:</strong> Chủ nô (Người tự do).</div>
+                                <div><strong>Quyền tối thượng:</strong> Quyền sở hữu tuyệt đối (kể cả con người).</div>
+                                <div><strong>Đặc điểm:</strong> Phân chia rạch ròi "Người - Vật sở hữu".</div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <p class="text-[15px] font-bold text-slate-700 uppercase">Các quyền khác:</p>
+                            <ul class="text-[15px] text-slate-600 space-y-1.5">
+                                <li class="flex items-center"><span class="custom-bullet bg-red-400"></span> Sở hữu đất đai, súc vật, công cụ & nô lệ.</li>
+                                <li class="flex items-center"><span class="custom-bullet bg-red-400"></span> Tham gia hội đồng, bầu cử chức vụ nhà nước.</li>
+                                <li class="flex items-center"><span class="custom-bullet bg-red-400"></span> Được bảo vệ bởi luật pháp (người tự do).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+                <article class="era-card bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden snap-center flex flex-col">
+                    <div class="h-1.5 bg-amber-500"></div>
+                    <div class="p-5 flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <!-- <span class="px-2 py-0.5 bg-amber-100 text-amber-700 rounded-full text-[8px] font-black uppercase tracking-widest">Giai đoạn 02</span> -->
+                                <h3 class="text-lg font-black text-slate-900 mt-0.5">Phong Kiến</h3>
+                            </div>
+                            <span class="text-2xl">🏰</span>
+                        </div>
+                        <p class="text-[15px] text-slate-600 mb-4 leading-tight italic">Quyền lợi gắn liền với ruộng đất và dòng dõi. Nông dân thoát kiếp vật sở hữu nhưng lệ thuộc thân thể.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border-b border-slate-50 pb-4">
+                            <div class="chart-container"><canvas id="chartFeudal"></canvas></div>
+                            <div class="flex flex-col justify-center space-y-1.5">
+                                <p class="text-[12px] font-black text-amber-600 uppercase">Chú giải:</p>
+                                <div class="text-[12px] text-slate-600 space-y-1 leading-tight">
+                                    <div><span class="legend-dot" style="background: #b45309"></span> <strong>Vua:</strong> Quyền lực trời ban.</div>
+                                    <div><span class="legend-dot" style="background: #f59e0b"></span> <strong>Địa chủ:</strong> Đặc quyền đẳng cấp.</div>
+                                    <div><span class="legend-dot" style="background: #fcd34d"></span> <strong>Nông dân:</strong> Lệ thuộc đất đai.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-2 mb-3">
+                            <p class="text-[13px] font-bold text-amber-700 uppercase">📌 Thông tin chi tiết:</p>
+                            <div class="text-[13px] text-slate-700 space-y-1.5 leading-snug">
+                                <div><strong>Chủ thể chính:</strong> Vua chúa, Quý tộc, Địa chủ.</div>
+                                <div><strong>Quyền tối thượng:</strong> Quyền tô thuế & Đặc quyền giai cấp.</div>
+                                <div><strong>Đặc điểm:</strong> Hệ thống tôn ti trật tự "Thiên tử - Thần dân".</div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <p class="text-[15px] font-bold text-slate-700 uppercase">Các quyền khác:</p>
+                            <ul class="text-[15px] text-slate-600 space-y-1.5">
+                                <li class="flex items-center"><span class="custom-bullet bg-amber-400"></span> Cai trị lãnh địa, thu thuế, có quân đội riêng.</li>
+                                <li class="flex items-center"><span class="custom-bullet bg-amber-400"></span> Thừa kế tước hiệu, miễn thuế (quý tộc).</li>
+                                <li class="flex items-center"><span class="custom-bullet bg-amber-400"></span> Quyền gia đình và tài sản nhỏ (nông dân).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+                <article class="era-card bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden snap-center flex flex-col">
+                    <div class="h-1.5 bg-indigo-500"></div>
+                    <div class="p-5 flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <!-- <span class="px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full text-[8px] font-black uppercase tracking-widest">Giai đoạn 03</span> -->
+                                <h3 class="text-lg font-black text-slate-900 mt-0.5">Tư Bản Chủ Nghĩa</h3>
+                            </div>
+                            <span class="text-2xl">⚖️</span>
+                        </div>
+                        <p class="text-[15px] text-slate-600 mb-4 leading-tight italic">Thời kỳ bùng nổ quyền dân sự và chính trị. Bình đẳng trên pháp lý nhưng bị giới hạn bởi khả năng kinh tế.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border-b border-slate-50 pb-4">
+                            <div class="chart-container"><canvas id="chartCapitalism"></canvas></div>
+                            <div class="flex flex-col justify-center space-y-1.5">
+                                <p class="text-[12px] font-black text-indigo-600 uppercase">Chú giải:</p>
+                                <div class="text-[12px] text-slate-600 space-y-1 leading-tight">
+                                    <div><span class="legend-dot" style="background: rgba(99, 102, 241, 0.8)"></span> <strong>Tư hữu:</strong> Quyền cốt lõi nhất.</div>
+                                    <div><span class="legend-dot" style="background: rgba(168, 85, 247, 0.8)"></span> <strong>Dân sự:</strong> Tự do cá nhân.</div>
+                                    <div><span class="legend-dot" style="background: rgba(236, 72, 153, 0.8)"></span> <strong>Chính trị:</strong> Bầu cử, hội họp.</div>
+                                    <div><span class="legend-dot" style="background: rgba(244, 63, 94, 0.8)"></span> <strong>Cư trú:</strong> Tự do đi lại.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-2 mb-3">
+                            <p class="text-[13px] font-bold text-indigo-700 uppercase">📌 Thông tin chi tiết:</p>
+                            <div class="text-[13px] text-slate-700 space-y-1.5 leading-snug">
+                                <div><strong>Chủ thể chính:</strong> Giai cấp tư sản (chủ tư bản).</div>
+                                <div><strong>Quyền tối thượng:</strong> Quyền sở hữu tư nhân & Tự do thị trường.</div>
+                                <div><strong>Đặc điểm:</strong> Bình đẳng pháp lý nhưng bất bình đẳng kinh tế.</div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <p class="text-[15px] font-bold text-slate-700 uppercase">Các quyền khác:</p>
+                            <ul class="text-[15px] text-slate-600 space-y-1.5">
+                                <li class="flex items-center"><span class="custom-bullet bg-indigo-400"></span> Bất khả xâm phạm thân thể, quyền sống & tự do.</li>
+                                <li class="flex items-center"><span class="custom-bullet bg-indigo-400"></span> Tự do ngôn luận, báo chí, tín ngưỡng & tôn giáo.</li>
+                                <li class="flex items-center"><span class="custom-bullet bg-indigo-400"></span> Tự do kinh doanh, lập hội và ký kết hợp đồng.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+                <article class="era-card bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden snap-center flex flex-col">
+                    <div class="h-1.5 bg-teal-500"></div>
+                    <div class="p-5 flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <!-- <span class="px-2 py-0.5 bg-teal-100 text-teal-700 rounded-full text-[8px] font-black uppercase tracking-widest">Giai đoạn 04</span> -->
+                                <h3 class="text-lg font-black text-slate-900 mt-0.5">Xã Hội Chủ Nghĩa</h3>
+                            </div>
+                            <span class="text-2xl">🤝</span>
+                        </div>
+                        <p class="text-[15px] text-slate-600 mb-4 leading-tight italic">Quyền con người phát triển toàn diện. Xóa bỏ bóc lột, gắn quyền lợi cá nhân với công bằng xã hội.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border-b border-slate-50 pb-4">
+                            <div class="chart-container"><canvas id="chartSocialism"></canvas></div>
+                            <div class="flex flex-col justify-center space-y-1.5">
+                                <p class="text-[12px] font-black text-teal-600 uppercase">Chú giải:</p>
+                                <div class="text-[12px] text-slate-600 space-y-1 leading-tight">
+                                    <div><span class="legend-dot" style="background: #14b8a6"></span> <strong>XHCN:</strong> Quyền thực chất.</div>
+                                    <div><span class="legend-dot" style="background: #94a3b8"></span> <strong>Tư bản:</strong> Quyền hình thức.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-2 mb-3">
+                            <p class="text-[13px] font-bold text-teal-700 uppercase">📌 Thông tin chi tiết:</p>
+                            <div class="text-[13px] text-slate-700 space-y-1.5 leading-snug">
+                                <div><strong>Chủ thể chính:</strong> Nhân dân lao động (Giai cấp công nhân).</div>
+                                <div><strong>Quyền tối thượng:</strong> Quyền làm chủ tập thể & Công bằng xã hội.</div>
+                                <div><strong>Đặc điểm:</strong> Quyền thực chất gắn với điều kiện thực hiện.</div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <p class="text-[15px] font-bold text-slate-700 uppercase">Các quyền khác:</p>
+                            <ul class="text-[15px] text-slate-600 space-y-1.5">
+                                <li class="flex items-center"><span class="custom-bullet bg-teal-400"></span> Quyền lao động, y tế, giáo dục & an sinh xã hội.</li>
+                                <li class="flex items-center"><span class="custom-bullet bg-teal-400"></span> Tham gia quản lý nhà nước, giám sát & bãi miễn.</li>
+                                <li class="flex items-center"><span class="custom-bullet bg-teal-400"></span> Bình đẳng giới, dân tộc & quyền sống hòa bình.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+        <section class="max-w-7xl mx-auto px-6 pb-2">
+            <h3 class="text-[12px] font-black text-slate-900 mb-3 uppercase tracking-tight">Đối chiếu sự chuyển dịch</h3>
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-slate-100">
+                <table class="w-full text-left text-[12px]">
+                    <thead>
+                        <tr class="bg-slate-900 text-white uppercase tracking-widest">
+                            <th class="p-3">Thời kỳ</th>
+                            <th class="p-3">Chủ thể trọng tâm</th>
+                            <th class="p-3">Bản chất thực tế</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 font-medium text-slate-700">
+                        <tr><td class="p-3 font-bold text-red-600">Nô lệ</td><td class="p-3">Chủ nô</td><td class="p-3">Công cụ biết nói</td></tr>
+                        <tr><td class="p-3 font-bold text-amber-600">Phong kiến</td><td class="p-3">Địa chủ</td><td class="p-3">Lệ thuộc đất đai</td></tr>
+                        <tr><td class="p-3 font-bold text-indigo-600">Tư bản</td><td class="p-3">Tư sản</td><td class="p-3">Hình thức/Sở hữu</td></tr>
+                        <tr><td class="p-3 font-bold text-teal-600">XHCN</td><td class="p-3">Nhân dân</td><td class="p-3">Thực chất/Làm chủ</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-slate-900 text-slate-500 py-3 px-6 text-center text-[12px] uppercase tracking-widest font-bold">
+        Giáo trình Chủ nghĩa xã hội khoa học (2021)
+    </footer>
+    <script>
+        function wrapLabel(label, maxChars = 20) {
+            if (label.length <= maxChars) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > maxChars) {
+                    lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        }
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    enabled: false
+                }
+            }
+        };
+        
+        // Đồng bộ scroll giữa timeline và cards
+        const timelineScroll = document.getElementById('timelineScroll');
+        const cardsContainer = document.getElementById('cardsContainer');
+        const timelineContent = document.querySelector('.timeline-content');
+        
+        // Tính toán và thiết lập độ rộng timeline bằng với cards
+        function updateTimelineWidth() {
+            if (timelineContent && cardsContainer) {
+                const scrollWidth = cardsContainer.scrollWidth;
+                timelineContent.style.width = scrollWidth + 'px';
+                
+                // Đặt vị trí các timeline-point căn giữa với cards
+                const cards = cardsContainer.querySelectorAll('.era-card');
+                const points = document.querySelectorAll('.timeline-point');
+                const containerRect = cardsContainer.getBoundingClientRect();
+                const scrollLeft = cardsContainer.scrollLeft;
+                
+                cards.forEach((card, index) => {
+                    if (points[index]) {
+                        const cardRect = card.getBoundingClientRect();
+                        const cardCenter = cardRect.left - containerRect.left + scrollLeft + (cardRect.width / 2) - 60;
+                        points[index].style.left = cardCenter + 'px';
+                    }
+                });
+            }
+        }
+        
+        let isTimelineScrolling = false;
+        let isCardsScrolling = false;
+        
+        if (timelineScroll && cardsContainer) {
+            cardsContainer.addEventListener('scroll', function() {
+                if (!isTimelineScrolling) {
+                    isCardsScrolling = true;
+                    timelineScroll.scrollLeft = cardsContainer.scrollLeft;
+                    setTimeout(() => { isCardsScrolling = false; }, 50);
+                }
+            });
+            
+            timelineScroll.addEventListener('scroll', function() {
+                if (!isCardsScrolling) {
+                    isTimelineScrolling = true;
+                    cardsContainer.scrollLeft = timelineScroll.scrollLeft;
+                    setTimeout(() => { isTimelineScrolling = false; }, 50);
+                }
+            });
+        }
+        
+        window.onload = function() {
+            updateTimelineWidth();
+            
+            new Chart(document.getElementById('chartSlavery').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: [wrapLabel('Chủ nô/Tự do'), wrapLabel('Nô lệ')],
+                    datasets: [{
+                        data: [15, 85],
+                        backgroundColor: ['#ef4444', '#e2e8f0'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { ...commonOptions, plugins: { ...commonOptions.plugins, legend: { display: false } } }
+            });
+            new Chart(document.getElementById('chartFeudal').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: [wrapLabel('Vua'), wrapLabel('Q.tộc'), wrapLabel('N.nô')],
+                    datasets: [{
+                        data: [100, 70, 20],
+                        backgroundColor: ['#b45309', '#f59e0b', '#fcd34d'],
+                        borderRadius: 2
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    indexAxis: 'y',
+                    plugins: { ...commonOptions.plugins, legend: { display: false } },
+                    scales: { x: { display: false }, y: { grid: { display: false }, ticks: { font: { size: 8 } } } }
+                }
+            });
+            new Chart(document.getElementById('chartCapitalism').getContext('2d'), {
+                type: 'polarArea',
+                data: {
+                    labels: [wrapLabel('Sở hữu'), wrapLabel('Ngôn luận'), wrapLabel('Bầu cử'), wrapLabel('Đi lại')],
+                    datasets: [{
+                        data: [95, 85, 80, 88],
+                        backgroundColor: ['rgba(99, 102, 241, 0.7)', 'rgba(168, 85, 247, 0.7)', 'rgba(236, 72, 153, 0.7)', 'rgba(244, 63, 94, 0.7)'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { ...commonOptions, scales: { r: { ticks: { display: false }, grid: { color: '#f1f5f9' } } }, plugins: { ...commonOptions.plugins, legend: { display: false } } }
+            });
+            new Chart(document.getElementById('chartSocialism').getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: [wrapLabel('Quyền Chính Trị', 10), wrapLabel('Quyền Dân Sự', 10), wrapLabel('Quyền Lao Động', 10), wrapLabel('An Sinh Xã Hội', 10), wrapLabel('Bình Đẳng Giới', 10), wrapLabel('Giáo Dục & Y Tế', 10)],
+                    datasets: [
+                        { label: 'Chủ Nghĩa Xã Hội (Mục tiêu)', data: [95, 90, 98, 95, 90, 95], borderColor: '#14b8a6', backgroundColor: 'rgba(20, 184, 166, 0.2)', fill: true, borderWidth: 2 },
+                        { label: 'Tư Bản Chủ Nghĩa (Cơ điển)', data: [80, 85, 60, 50, 65, 55], borderColor: '#94a3b8', backgroundColor: 'rgba(148, 163, 184, 0.1)', borderDash: [5, 5], fill: true }
+                    ]
+                },
+                options: { ...commonOptions, scales: { r: { suggestedMin: 0, suggestedMax: 100, ticks: { display: false, stepSize: 20, backdropColor: 'transparent', color: '#94a3b8', font: { size: 5 } }, grid: { color: '#e2e8f0' }, pointLabels: { font: { size: 9 } } } }, plugins: { ...commonOptions.plugins, legend: { display: false } } }
+            });
+        };
+    </script>
+</body>
+</html>
