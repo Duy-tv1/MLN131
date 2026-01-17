@@ -30,8 +30,9 @@ class GestureController {
             '1': '🖐 + ✊ Nguyên Thủy (1)',
             '2': '🖐 + ✊ Nô Lệ (2)',
             '3': '🖐 + ✊ Phong Kiến (3)',
-            '4': '🖐 + ✊ Tư Bản (4)',
-            '5': '🖐 + ✊ XHCN (5)',
+            // Swapped to match camera inversion
+            '4': '🖐 + ✊ XHCN (5)', 
+            '5': '🖐 + ✊ Tư Bản (4)', 
             '6': '👐 Cộng Sản (Tổng 6+)',
             'fist': '✊ + ✊ Reset',
             'chaos': '👐 Hỗn Mang (2 Bàn Tay Mở)',
