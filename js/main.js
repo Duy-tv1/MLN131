@@ -67,8 +67,8 @@ function handleGestureCommand(gesture) {
         '1': 0, // Primitive
         '2': 1, // Slave
         '3': 2, // Feudal
-        '4': 3, // Capitalist
-        '5': 4, // Socialist
+        '4': 4, // Swap to fix User Camera Inversion? (Input 4 -> Era 4 Socialist)
+        '5': 3, // Swap to fix User Camera Inversion? (Input 5 -> Era 3 Capitalist)
         '6': 5  // Communist
     };
 
