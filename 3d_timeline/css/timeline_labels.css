@@ -1,0 +1,28 @@
+
+
+    /* Label Timeline Styles */
+    .timeline-label {
+        position: absolute;
+        color: rgba(255,255,255,0.8);
+        font-size: 20px;
+        font-weight: 900;
+        text-transform: uppercase;
+        pointer-events: none;
+        text-align: center;
+        width: 200px;
+        transform: translate(-50%, -50%);
+        text-shadow: 0 0 10px rgba(0,0,0,1);
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+    
+    .timeline-label.visible {
+        opacity: 1;
+    }
+
+    .timeline-year {
+        display: block;
+        font-size: 14px;
+        opacity: 0.5;
+        margin-top: 5px;
+    }
