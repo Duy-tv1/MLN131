@@ -1,0 +1,33 @@
+{
+  "systemId": "primitive",
+  "systemName": "Xã hội Nguyên thủy",
+  "slides": [
+    {
+      "slideIndex": 1,
+      "particleCount": 1500,
+      "sizeRange": [0.6, 1.2],
+      "movementSpeed": 0.5,
+      "clusteringLogic": "random",
+      "attractionRules": { "type": "center", "strength": 0.2 },
+      "desc": "Slide 1"
+    },
+    {
+      "slideIndex": 2,
+      "particleCount": 1800,
+      "sizeRange": [0.8, 1.5],
+      "movementSpeed": 0.3,
+      "clusteringLogic": "groups",
+      "attractionRules": { "type": "multi-center", "strength": 0.4 },
+      "desc": "Slide 2"
+    },
+    {
+      "slideIndex": 3,
+      "particleCount": 2000,
+      "sizeRange": [1.0, 2.0],
+      "movementSpeed": 0.2,
+      "clusteringLogic": "merged",
+      "attractionRules": { "type": "unified", "strength": 0.6 },
+      "desc": "Slide 3"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "systemId": "capitalist",
+  "systemName": "Chủ nghĩa Tư bản",
+  "slides": [
+    {
+      "slideIndex": 1,
+      "particleCount": 2500,
+      "sizeRange": [0.5, 2.0],
+      "movementSpeed": 1.5,
+      "clusteringLogic": "chaotic",
+      "attractionRules": { "type": "multiple-attractors", "strength": 0.4 },
+      "desc": "Slide 1"
+    },
+    {
+      "slideIndex": 2,
+      "particleCount": 2000,
+      "sizeRange": [0.5, 1.5],
+      "movementSpeed": 2.0,
+      "clusteringLogic": "collision",
+      "attractionRules": { "type": "repulsion", "strength": 0.6 },
+      "desc": "Slide 2"
+    },
+    {
+      "slideIndex": 3,
+      "particleCount": 1500,
+      "sizeRange": [1.0, 3.0],
+      "movementSpeed": 0.5,
+      "clusteringLogic": "monopoly",
+      "attractionRules": { "type": "few-centers", "strength": 0.9 },
+      "desc": "Slide 3"
+    }
+  ]
+}

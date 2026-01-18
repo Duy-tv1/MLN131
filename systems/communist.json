@@ -1,0 +1,33 @@
+{
+  "systemId": "communist",
+  "systemName": "Cộng sản Chủ nghĩa",
+  "slides": [
+    {
+      "slideIndex": 1,
+      "particleCount": 3000,
+      "sizeRange": [1.0, 1.5],
+      "movementSpeed": 0.2,
+      "clusteringLogic": "fluid",
+      "attractionRules": { "type": "flow", "strength": 0.3 },
+      "desc": "Slide 1"
+    },
+    {
+      "slideIndex": 2,
+      "particleCount": 3000,
+      "sizeRange": [1.0, 1.5],
+      "movementSpeed": 0.2,
+      "clusteringLogic": "interconnected",
+      "attractionRules": { "type": "network", "strength": 0.5 },
+      "desc": "Slide 2"
+    },
+    {
+      "slideIndex": 3,
+      "particleCount": 3000,
+      "sizeRange": [1.0, 1.5],
+      "movementSpeed": 0.1,
+      "clusteringLogic": "unity",
+      "attractionRules": { "type": "one", "strength": 0.8 },
+      "desc": "Slide 3"
+    }
+  ]
+}

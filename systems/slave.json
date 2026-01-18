@@ -1,0 +1,33 @@
+{
+  "systemId": "slave",
+  "systemName": "Chiếm hữu Nô lệ",
+  "slides": [
+    {
+      "slideIndex": 1,
+      "particleCount": 2000,
+      "sizeRange": [0.5, 1.0],
+      "movementSpeed": 0.4,
+      "clusteringLogic": "split",
+      "attractionRules": { "type": "top-bottom", "strength": 0.8 },
+      "desc": "Slide 1"
+    },
+    {
+      "slideIndex": 2,
+      "particleCount": 2200,
+      "sizeRange": [0.4, 0.8],
+      "movementSpeed": 0.6,
+      "clusteringLogic": "grid",
+      "attractionRules": { "type": "rigid", "strength": 0.9 },
+      "desc": "Slide 2"
+    },
+    {
+      "slideIndex": 3,
+      "particleCount": 1800,
+      "sizeRange": [1.0, 2.5],
+      "movementSpeed": 0.1,
+      "clusteringLogic": "central-dominance",
+      "attractionRules": { "type": "center-heavy", "strength": 1.0 },
+      "desc": "Slide 3"
+    }
+  ]
+}

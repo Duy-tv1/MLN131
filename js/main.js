@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
             startBtn.style.opacity = '0';
             startBtn.style.pointerEvents = 'none';
             
+            // Remove from DOM flow after transition to prevent blocking UI
+            setTimeout(() => {
+                startBtn.style.display = 'none';
+            }, 1000);
+            
             // Auto-start Music
             const audio = document.getElementById('bg-music');
             if (audio && audio.paused) toggleMusic();
@@ -56,10 +61,56 @@ function toggleMusic() {
             text.classList.remove('text-emerald-400');
         }
         if (container) container.classList.remove('border-emerald-500/50', 'bg-black/80');
+    
+
+
     }
 }
 
+// --- CONTENT MODE STATE & LOGIC ---
+let isContentMode = false;
+let currentSystemData = null;
+let currentSlideIndex = 0;
+
 function handleGestureCommand(gesture) {
+    // 1. CONTENT MODE LOGIC
+    if (gesture === 'enter_content') {
+        // Only enter if we are in a specific Era (DETAIL mode) and not already in content
+        // activeEraIndex is global from particles.js (exposed?) 
+        // We set activeEraIndex via setParticlesState, so we can track it here via a local var or access it if exposed.
+        // But activeEraIndex is in particles.js scope. 
+        // Ideally we track it here too or particles.js exports it.
+        // Actually setParticlesState sets a local variable in particles.js. 
+        // We should track activeEraIndex locally here or make it accessible.
+        // Let's rely on our local tracking or assume we are in a valid state if UI is showing.
+        const eraPanel = document.getElementById('era-panel');
+        const isEraVisible = eraPanel && eraPanel.classList.contains('visible');
+        
+        if (!isContentMode && isEraVisible) {
+             enterContentMode();
+        }
+        return;
+    }
+
+    if (gesture === 'exit_content') {
+        if (isContentMode) {
+            exitContentMode();
+        }
+        return;
+    }
+
+    if (isContentMode) {
+        // Chỉ nhận lệnh điều hướng 1 tay khi đang ở Content Mode
+        if (gesture === 'nav_next' || gesture === '1') {
+            nextSlide();
+        } else if (gesture === 'nav_prev' || gesture === '2') {
+            prevSlide();
+        }
+        // Block other gestures
+        return;
+    }
+
+    // 2. STANDARD LOGIC
     // Map gestures from gestures.js to Code2 visual states
     // gestures.js outputs: '1', '2', '3', '4', '5', '6', 'reset', 'chaos'
     
@@ -76,6 +127,7 @@ function handleGestureCommand(gesture) {
         const eraIndex = eraMap[gesture];
         setParticlesState('DETAIL', eraIndex);
         showEraPanel(eraIndex);
+        // Track locally if needed, but showEraPanel uses global ERA_DATA and index match
     } else if (gesture === 'reset') {
         setParticlesState('TIMELINE');
         hideEraPanel();
@@ -87,8 +139,141 @@ function handleGestureCommand(gesture) {
     }
 }
 
+async function enterContentMode() {
+    if (localEraIndex === -1) return;
+    
+    const era = ERA_DATA[localEraIndex];
+    if (!era) return;
+
+    // Load Data
+    const sysId = era.type.toLowerCase();
+    try {
+        const res = await fetch(`systems/${sysId}.json`);
+        const data = await res.json();
+        
+        currentSystemData = data;
+        currentSlideIndex = 0;
+        isContentMode = true;
+
+        // Hide Era Navigation UI
+        hideEraPanel();
+        
+        // Setup Slide Bar
+        setupSlideBar();
+        
+        // Render 
+        renderSlide(0);
+
+    } catch (e) {
+        console.error("Failed to load system data", e);
+    }
+}
+
+function exitContentMode() {
+    isContentMode = false;
+    currentSystemData = null;
+    
+    // Hide Slide Bar & Info
+    const bar = document.getElementById('slide-nav-bar');
+    if (bar) bar.classList.remove('visible-bar');
+    
+    const overlay = document.getElementById('slide-info-overlay');
+    if (overlay) overlay.classList.remove('visible-overlay');
+    
+    const bg = document.getElementById('slide-bg');
+    if (bg) bg.classList.remove('visible');
+
+    const hint = document.getElementById('slide-hint');
+    if (hint) hint.classList.remove('visible');
+    
+    const backdrop = document.getElementById('content-backdrop');
+    if (backdrop) backdrop.classList.remove('visible');
+    
+    // Restore Era UI
+    showEraPanel(localEraIndex);
+    setParticlesState('DETAIL', localEraIndex);
+}
+
+function nextSlide() {
+    if (!currentSystemData || !currentSystemData.slides) return;
+    if (currentSlideIndex < currentSystemData.slides.length - 1) {
+        renderSlide(currentSlideIndex + 1);
+    }
+}
+
+function prevSlide() {
+    if (currentSlideIndex > 0) {
+        renderSlide(currentSlideIndex - 1);
+    }
+}
+
+function renderSlide(idx) {
+    currentSlideIndex = idx;
+    const slide = currentSystemData.slides[idx];
+    
+    // Update Particles
+    setParticlesState('CONTENT_SLIDE', slide);
+    
+    // Update UI
+    updateSlideBarHighlight();
+    
+    // Update Text Description
+    const overlay = document.getElementById('slide-info-overlay');
+    const bg = document.getElementById('slide-bg');
+
+    if (overlay) {
+        const txt = document.getElementById('slide-desc');
+        if (txt) txt.innerHTML = slide.desc || "";
+        overlay.classList.add('visible-overlay');
+        
+        // Update BG
+        if (bg) {
+            if (slide.bgImage) {
+                bg.style.backgroundImage = `url('${slide.bgImage}')`;
+                bg.classList.add('visible');
+            } else {
+                bg.classList.remove('visible');
+            }
+        }
+
+        const hint = document.getElementById('slide-hint');
+        if (hint) hint.classList.add('visible');
+
+        const backdrop = document.getElementById('content-backdrop');
+        if (backdrop) backdrop.classList.add('visible');
+    }
+}
+
+function setupSlideBar() {
+    const bar = document.getElementById('slide-nav-bar');
+    if (!bar) return;
+    
+    bar.innerHTML = '';
+    currentSystemData.slides.forEach((s, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'slide-marker';
+        dot.innerText = i + 1;
+        dot.onclick = () => renderSlide(i);
+        bar.appendChild(dot);
+    });
+    
+    bar.classList.add('visible-bar');
+}
+
+function updateSlideBarHighlight() {
+    const dots = document.querySelectorAll('.slide-marker');
+    dots.forEach((d, i) => {
+        if (i === currentSlideIndex) d.classList.add('active');
+        else d.classList.remove('active');
+    });
+}
+
+let localEraIndex = -1;
 function showEraPanel(idx) {
+    localEraIndex = idx; // Capture for Content Mode entry
+
     if (typeof ERA_DATA === 'undefined') return;
+
     
     // Hide Gesture Guide in specific Era mode
     const guide = document.getElementById('gesture-note');

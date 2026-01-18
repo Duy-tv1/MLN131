@@ -49,6 +49,7 @@ let scene, camera, renderer, particleSystem;
 const PARTICLE_COUNT = 3000; // Siêu tối ưu cho máy yếu (Lite)
 let visualState = "CHAOS"; 
 let activeEraIndex = -1;
+let currentSlideData = null; // New for Content Mode
 let targetZoom = 800;
 let currentRotation = { x: 0, y: 0 };
 
@@ -271,6 +272,89 @@ function getEraPosition(i, type) {
     return {x, y, z};
 }
 
+function getSlidePosition(i, slide) {
+    if (!slide) return {x:0, y:0, z:0};
+    
+    // Slide Params
+    // particleCount acts as a limiter: if i > count, hide particle or send far away
+    if (i > slide.particleCount) {
+        return { x: 99999, y: 99999, z: 99999 };
+    }
+
+    const time = Date.now() * 0.001 * (slide.movementSpeed || 0.5);
+    const logic = slide.clusteringLogic || 'random';
+    let x=0, y=0, z=0;
+
+    // Generic Logic Implementations
+    switch(logic) {
+        case 'random': 
+        case 'chaotic':
+            x = (Math.sin(i * 132.1 + time) + Math.cos(i * 32.1)) * 400;
+            y = (Math.sin(i * 45.2) + Math.cos(i * 21.9 + time)) * 400;
+            z = (Math.sin(i * 99.1) + Math.cos(time + i)) * 400;
+            break;
+            
+        case 'groups':
+        case 'split':
+            const group = i % 2 === 0 ? 1 : -1;
+            x = group * 300 + Math.sin(i + time) * 150;
+            y = Math.cos(i * 0.1 + time) * 150;
+            z = Math.sin(i * 0.2) * 150;
+            break;
+
+        case 'merged':
+        case 'unity':
+        case 'connected':
+            // High density center
+            const r = Math.random() * 300;
+            const theta = Math.random() * Math.PI * 2 + time * 0.2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            x = r * Math.sin(phi) * Math.cos(theta);
+            y = r * Math.sin(phi) * Math.sin(theta);
+            z = r * Math.cos(phi);
+            break;
+
+        case 'grid':
+        case 'uniform':
+            const side = Math.cbrt(slide.particleCount);
+            const spacing = 40;
+            const ix = i % side;
+            const iy = Math.floor(i / side) % side;
+            const iz = Math.floor(i / (side * side));
+            x = (ix - side/2) * spacing;
+            y = (iy - side/2) * spacing;
+            z = (iz - side/2) * spacing;
+            break;
+
+        case 'layers':
+            const layer = i % 3; 
+            y = (layer - 1) * 300;
+            const rl = Math.random() * 400;
+            const al = Math.random() * Math.PI * 2 + time;
+            x = rl * Math.cos(al);
+            z = rl * Math.sin(al);
+            break;
+
+        default: // Fluid/Flow
+            x = Math.sin(i * 0.01 + time) * 500;
+            y = Math.cos(i * 0.02 + time) * 200;
+            z = Math.sin(i * 0.03 + time) * 500;
+            break;
+    }
+    
+    // Apply attraction rules (Simple modifiers)
+    if (slide.attractionRules) {
+        const strength = slide.attractionRules.strength || 0.5;
+        if (slide.attractionRules.type === 'center') {
+            x *= (1 - strength * 0.5);
+            y *= (1 - strength * 0.5);
+            z *= (1 - strength * 0.5);
+        }
+    }
+
+    return {x, y, z};
+}
+
 function createTimelineLabels(container) {
     ERA_DATA.forEach((era, idx) => {
         const div = document.createElement('div');
@@ -398,23 +482,59 @@ function animate() {
             pos[i*3] += (tar.x - pos[i*3])*0.15; pos[i*3+1] += (tar.y - pos[i*3+1])*0.15; pos[i*3+2] += (tar.z - pos[i*3+2])*0.15;
             col[i*3] += (era.color[0]-col[i*3])*0.1; col[i*3+1] += (era.color[1]-col[i*3+1])*0.1; col[i*3+2] += (era.color[2]-col[i*3+2])*0.1;
         }
+    } else if (visualState === "CONTENT_SLIDE" && currentSlideData) {
+        for(let i=0; i<PARTICLE_COUNT; i++) {
+            const tar = getSlidePosition(i, currentSlideData);
+            // Faster transition for slides
+            pos[i*3] += (tar.x - pos[i*3])*0.2; 
+            pos[i*3+1] += (tar.y - pos[i*3+1])*0.2; 
+            pos[i*3+2] += (tar.z - pos[i*3+2])*0.2;
+            
+            // White/Blue tint for content mode
+            col[i*3] += (0.8 - col[i*3])*0.1; 
+            col[i*3+1] += (0.9 - col[i*3+1])*0.1; 
+            col[i*3+2] += (1.0 - col[i*3+2])*0.1;
+        }
     }
     particleSystem.geometry.attributes.position.needsUpdate = true;
     particleSystem.geometry.attributes.color.needsUpdate = true;
+
+    // Dim particles slightly when content slide is active for readability
+    if (visualState === 'CONTENT_SLIDE') {
+        if (particleSystem.material) {
+            particleSystem.material.opacity = 0.22;
+            particleSystem.material.size = 3.2;
+        }
+    } else {
+        if (particleSystem.material) {
+            particleSystem.material.opacity = 0.8;
+            particleSystem.material.size = 4;
+        }
+    }
+
     renderer.render(scene, camera);
 }
 
 // Global interface for main.js to call
-function setParticlesState(newState, eraIndex = -1) {
+function setParticlesState(newState, data = -1) {
     visualState = newState;
-    activeEraIndex = eraIndex;
+    
+    if (newState === 'CONTENT_SLIDE') {
+        currentSlideData = data; 
+        // activeEraIndex remains same to return to it later
+    } else {
+        if (typeof data === 'number') activeEraIndex = data;
+    }
     
     // Auto-camera logic based on state
     if (newState === 'TIMELINE') {
         targetZoom = 2500; 
-        updateTimelineLabels(true); // Show labels
+        updateTimelineLabels(true); 
+    } else if (newState === 'CONTENT_SLIDE') {
+        targetZoom = 500; // Closer for content
+        updateTimelineLabels(false);
     } else {
-        updateTimelineLabels(false); // Hide labels
+        updateTimelineLabels(false); 
         if (newState === 'DETAIL') {
             targetZoom = 600; 
         } else {

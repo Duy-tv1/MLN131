@@ -77,6 +77,87 @@
         
         #main-header { transition: opacity 1s ease, transform 1s ease; }
         .header-hidden { opacity: 0; transform: translateY(-50px); pointer-events: none; }
+
+        /* Slide Navigation Bar (Content Mode) */
+        #slide-nav-bar {
+            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 1rem; padding: 10px 20px;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            border-radius: 50px; border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.5s ease; opacity: 0; pointer-events: none;
+            z-index: 200;
+        }
+        #slide-nav-bar.visible-bar { opacity: 1; pointer-events: auto; }
+        .slide-marker {
+            width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);
+            font-size: 12px; cursor: pointer; transition: all 0.3s ease;
+            color: rgba(255,255,255,0.5); font-weight: bold;
+        }
+        .slide-marker.active {
+            background: #fff; color: #000; border-color: #fff; transform: scale(1.2);
+        }
+        .slide-marker:hover { border-color: #fff; color: #fff; }
+
+        /* Slide Content Backdrop & Overlay */
+        #content-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.85); /* Darker backdrop */
+            backdrop-filter: blur(8px);
+            opacity: 0; transition: opacity 0.35s ease; pointer-events: none;
+            z-index: 180;
+        }
+        #content-backdrop.visible { opacity: 1; pointer-events: auto; }
+
+        /* New Large Background Image Layer */
+        #slide-bg {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95);
+            width: 90vw; height: 85vh;
+            background-size: 100% 100%; background-repeat: no-repeat; background-position: center;
+            border-radius: 24px;
+            z-index: 185; opacity: 0; transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            filter: brightness(0.6) blur(4px);
+        }
+        #slide-bg.visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        #slide-bg::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 45%, rgba(0,0,0,0.2) 100%);
+            border-radius: 24px;
+        }
+
+        #slide-info-overlay {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -48%);
+            width: 85vw; height: 80vh; max-width: none; max-height: none; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: center;
+            text-align: left; pointer-events: none; /* Let clicks pass to bg if needed, or backdrop */
+            opacity: 0; transition: opacity 0.4s ease 0.1s;
+            z-index: 190; padding: 0 5vw;
+            background: transparent; box-shadow: none;
+        }
+        #slide-info-overlay.visible-overlay { opacity: 1; pointer-events: auto; }
+        
+        #slide-desc {
+            font-size: 1.05rem; font-weight: 400; line-height: 1.6; color: #ffffff;
+            margin: 0; padding: 0; text-shadow: none; max-width: 600px; /* Limit text width for reading */
+        }
+        
+        /* Ensure start button is always clickable and visible */
+        #start-btn {
+            position: fixed !important;
+            bottom: 3rem !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            z-index: 220 !important;
+            pointer-events: auto !important;
+        }
+        /* Bottom Hint */
+        #slide-hint {
+            position: fixed; bottom: 6rem; left: 0; width: 100%;
+            text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.55);
+            pointer-events: none; z-index: 195;
+            opacity: 0; transition: opacity 0.35s ease;
+        }
+        #slide-hint.visible { opacity: 1; }
     </style>
 </head>
 <body>
@@ -166,6 +247,23 @@
                 KÍCH HOẠT CAMERA
             </button>
         </div>
+
+        <!-- Slide Navigation Bar -->
+        <div id="slide-nav-bar"></div>
+        
+        <!-- Backdrop when showing slide content -->
+        <div id="content-backdrop"></div>
+        
+        <!-- Large Background Image -->
+        <div id="slide-bg"></div>
+
+        <!-- Slide UI Text Overlay -->
+        <div id="slide-info-overlay">
+            <p id="slide-desc"></p>
+        </div>
+        
+        <!-- Bottom Hint -->
+        <div id="slide-hint">Dùng 1 ngón để tới, 2 ngón để lùi. Giơ 8 ngón để thoát.</div>
     </div>
 
     <!-- Scripts -->

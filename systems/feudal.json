@@ -1,0 +1,33 @@
+{
+  "systemId": "feudal",
+  "systemName": "Xã hội Phong kiến",
+  "slides": [
+    {
+      "slideIndex": 1,
+      "particleCount": 2000,
+      "sizeRange": [0.6, 1.4],
+      "movementSpeed": 0.3,
+      "clusteringLogic": "layers",
+      "attractionRules": { "type": "vertical-hierarchy", "strength": 0.7 },
+      "desc": "Slide 1"
+    },
+    {
+      "slideIndex": 2,
+      "particleCount": 2500,
+      "sizeRange": [0.5, 1.0],
+      "movementSpeed": 0.2,
+      "clusteringLogic": "base-heavy",
+      "attractionRules": { "type": "bottom-heavy", "strength": 0.5 },
+      "desc": "Slide 2"
+    },
+    {
+      "slideIndex": 3,
+      "particleCount": 1500,
+      "sizeRange": [1.5, 3.0],
+      "movementSpeed": 0.1,
+      "clusteringLogic": "top-pinnacle",
+      "attractionRules": { "type": "top-center", "strength": 0.9 },
+      "desc": "Slide 3"
+    }
+  ]
+}

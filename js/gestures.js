@@ -27,13 +27,19 @@ class GestureController {
 
         // Friendly Names update for 2-hand logic
         this.gestureNames = {
+            'nav_next': '👆 Slide Sau (1 tay)',
+            'nav_prev': '✌️ Slide Trước (1 tay)',
             '1': '🖐 + ✊ Nguyên Thủy (1)',
             '2': '🖐 + ✊ Nô Lệ (2)',
             '3': '🖐 + ✊ Phong Kiến (3)',
             // Swapped to match camera inversion
             '4': '🖐 + ✊ XHCN (5)', 
             '5': '🖐 + ✊ Tư Bản (4)', 
-            '6': '👐 Cộng Sản (Tổng 6+)',
+            '6': '👐 Cộng Sản (Tổng 6)',
+            '7': '🖐 + ✌️ Vào Chi Tiết (Tổng 7)',
+            '8': '🖐 + 🤟 Thoát Chi Tiết (Tổng 8)',
+            'exit_content': '🖐 + 🤟 Thoát Chi Tiết (Tổng 8)',
+            'enter_content': '🖐 + ✌️ Vào Chi Tiết (Tổng 7)',
             'fist': '✊ + ✊ Reset',
             'chaos': '👐 Hỗn Mang (2 Bàn Tay Mở)',
              // Fallbacks
@@ -117,7 +123,16 @@ class GestureController {
     detectDualHandGesture(results) {
         const hands = results.multiHandLandmarks;
         
-        // Nếu không đủ 2 tay -> Yêu cầu 2 tay
+        // Hỗ trợ 1 tay cho điều hướng Slide (Content Mode)
+        if (hands.length === 1) {
+            const g = this.detectSingleHandShape(hands[0]);
+            if (g === '1') return 'nav_next';
+            if (g === '2') return 'nav_prev';
+            // Các cử chỉ khác vẫn yêu cầu 2 tay để tránh kích hoạt nhầm
+            return 'missing_hand';
+        }
+        
+        // Nếu không đủ 2 tay (và không phải trường hợp 1 tay hợp lệ ở trên)
         if (hands.length < 2) return 'missing_hand';
 
         const g1 = this.detectSingleHandShape(hands[0]);
@@ -152,7 +167,18 @@ class GestureController {
 
         const total = countFingers(g1) + countFingers(g2);
         
-        if (total >= 6 && !(g1 === '5' && g2 === '5')) {
+        // NEW: 7 fingers -> Enter Content Mode
+        if (total === 7) return 'enter_content';
+
+        // NEW: 8 fingers -> Exit Content Mode
+        if (total === 8) return 'exit_content';
+
+        // NEW: Allow "Lazy" 1 and 2 for Slide Navigation (Content Mode)
+        // This allows "1 + unknown/dropped hand" to count as '1' without strict Fist
+        if (total === 1) return '1';
+        if (total === 2) return '2';
+
+        if (total === 6 && !(g1 === '5' && g2 === '5')) {
             return '6';
         }
 
