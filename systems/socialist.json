@@ -5,28 +5,63 @@
     {
       "slideIndex": 0,
       "slideType": "overview",
+      "slideTitle": "Quyền con người trong Xã hội Chủ nghĩa",
       "particleCount": 2000,
       "sizeRange": [0.8, 1.2],
       "movementSpeed": 0.2,
       "clusteringLogic": "uniform",
       "attractionRules": { "type": "grid", "strength": 0.5 },
       "bgImage": "http://pbgdpl.camau.gov.vn:443/gallery/quyenconnguoi-12.2.2022.jpg",
-      "desc": "<h3 style='color:#fff; font-weight:bold; font-size:1.8em; margin-bottom:15px; text-transform:uppercase; letter-spacing:4px'>TỔNG QUAN</h3><p style='font-size:1.4em; line-height:1.6; color:#fff; font-weight:300'>Nhà nước pháp quyền Xã hội Chủ nghĩa Việt Nam.<br><strong style='font-size:1.2em; margin-top:15px; display:inline-block; color:#4ade80'>Độc lập - Tự do - Hạnh phúc</strong></p>"
+      "layout": {
+        "columns": "1fr",
+        "rows": "1fr"
+      },
+      "cards": [
+        {
+          "title": "TỔNG QUAN",
+          "text": "Trong CNXH Việt Nam, quyền chính trị được đảm bảo qua các quyền bầu cử, ứng cử vào Quốc hội và Hội đồng nhân dân. Theo tư tưởng Hồ Chí Minh, dân chủ XHCN nghĩa là nhân dân là chủ, có quyền lực cao nhất và quyền Các quyền chính trong CNXH"
+        }
+      ]
     },
     {
       "slideIndex": 1,
+      "mainContent": [
+        "Quyết định mọi vấn đề liên quan đến vận mệnh dân tộc."
+      ],
       "slideType": "detail",
+      "slideTitle": "Quyền Chính trị & Dân chủ",
       "focusDomain": "political",
       "particleCount": 2500,
       "sizeRange": [0.8, 1.2],
       "movementSpeed": 0.3,
       "clusteringLogic": "uniform",
       "attractionRules": { "type": "grid", "strength": 0.5 },
-      "bgImage": "https://placehold.co/600x400/0f2e18/4ade80?text=Chinh+Tri",
-      "desc": "<h3 style='color:#4ade80; font-weight:bold; font-size:1.6em; margin-bottom:20px; text-transform:uppercase; letter-spacing:2px; border-bottom:1px solid rgba(74, 222, 128, 0.5); padding-bottom:10px; display:inline-block'>1. Quyền Chính trị & Dân chủ</h3><ul style='list-style-type:disc; padding-left:20px; line-height:1.8; font-size:1.15em; color:#fff'><li>Nhà nước của nhân dân, do nhân dân, vì nhân dân</li><li>Quyền lực nhà nước thuộc về nhân dân</li><li>Công dân có quyền tự do ngôn luận, tự do báo chí, tiếp cận thông tin</li><li>Công dân tham gia quản lý nhà nước qua phương thức dân chủ trực tiếp và dân chủ đại diện</li></ul><div style='font-size:0.8rem; color:rgba(255,255,255,0.6); font-style:italic; margin-top:30px; border-top:1px solid rgba(255,255,255,0.2); padding-top:10px; display:inline-block'>Nguồn: Hiến pháp 2013</div>"
+      "bgImage": "https://tse3.mm.bing.net/th/id/OIP.3fechXngxgQh5HiWYg0PewHaEQ?rs=1&pid=ImgDetMain&o=7&rm=3",
+      "layout": {
+        "columns": "1fr 1fr",
+        "rows": "1fr 1fr"
+      },
+      "cards": [
+        {
+          "title": "Nhà nước của dân",
+          "text": "Nhà nước của nhân dân, do nhân dân, vì nhân dân. Quyền lực nhà nước thuộc về nhân dân."
+        },
+        {
+          "title": "Tự do ngôn luận",
+          "text": "Công dân có quyền tự do ngôn luận, tự do báo chí, tiếp cận thông tin."
+        },
+        {
+          "title": "Tham gia quản lý",
+          "text": "Công dân tham gia quản lý nhà nước qua phương thức dân chủ trực tiếp và dân chủ đại diện."
+        }
+      ]
     },
     {
       "slideIndex": 2,
+      "mainContent": [
+        "Các quyền dân sự cơ bản bao gồm quyền sống, quyền tự do và an toàn cá nhân, quyền bất khả xâm phạm về chỗ ở, quyền tự do đi lại và cư trú."
+      ],
+      "slideTitle": "Quyền Dân sự",
       "slideType": "detail",
       "focusDomain": "civil",
       "particleCount": 2800,
@@ -34,11 +69,36 @@
       "movementSpeed": 0.4,
       "clusteringLogic": "fluid",
       "attractionRules": { "type": "flow", "strength": 0.4 },
-      "bgImage": "https://placehold.co/600x400/2e1a0f/de804a?text=Dan+Su",
-      "desc": "<h3 style='color:#4ade80; font-weight:bold; font-size:1.6em; margin-bottom:20px; text-transform:uppercase; letter-spacing:2px; border-bottom:1px solid rgba(74, 222, 128, 0.5); padding-bottom:10px; display:inline-block'>2. Quyền Dân sự</h3><ul style='list-style-type:disc; padding-left:20px; line-height:1.8; font-size:1.15em; color:#fff'><li>Quyền sống - tính mạng con người được pháp luật bảo hộ, không ai bị tước đoạt tính mạng trái luật</li><li>Quyền tự do tín ngưỡng, tôn giáo - mọi người có quyền theo hoặc không theo một tôn giáo nào, các tôn giáo bình đẳng trước pháp luật</li><li>Quyền bình đẳng trước pháp luật - không phân biệt đối xử</li><li>Quyền tự do đi lại và cư trú, có quyền ra nước ngoài và từ nước ngoài về nước theo quy định</li></ul><div style='font-size:0.8rem; color:rgba(255,255,255,0.6); font-style:italic; margin-top:30px; border-top:1px solid rgba(255,255,255,0.2); padding-top:10px; display:inline-block'>Nguồn: Hiến pháp 2013</div>"
+      "bgImage": "https://cdn.thuvienphapluat.vn/phap-luat/2022/8/25/quyen-dan-su-1.jpg",
+      "layout": {
+        "columns": "1fr 1fr",
+        "rows": "1fr 1fr"
+      },
+      "cards": [
+        {
+          "title": "Quyền sống",
+          "text": "Tính mạng con người được pháp luật bảo hộ, không ai bị tước đoạt tính mạng trái luật."
+        },
+        {
+          "title": "Tự do tín ngưỡng",
+          "text": "Mọi người có quyền theo hoặc không theo một tôn giáo nào, các tôn giáo bình đẳng trước pháp luật."
+        },
+        {
+          "title": "Bình đẳng",
+          "text": "Quyền bình đẳng trước pháp luật, không phân biệt đối xử."
+        },
+        {
+          "title": "Tự do đi lại",
+          "text": "Quyền tự do đi lại và cư trú, có quyền ra nước ngoài và từ nước ngoài về nước theo quy định."
+        }
+      ]
     },
     {
       "slideIndex": 3,
+      "slideTitle": "Quyền Kinh tế",
+      "mainContent": [
+        "Quyền kinh tế bao gồm quyền có việc làm, quyền được trả lương tương xứng và công bằng, quyền công đoàn."
+      ],
       "slideType": "detail",
       "focusDomain": "economic",
       "particleCount": 3000,
@@ -46,11 +106,36 @@
       "movementSpeed": 0.5,
       "clusteringLogic": "merged",
       "attractionRules": { "type": "center", "strength": 0.6 },
-      "bgImage": "https://placehold.co/600x400/0f1a2e/4a80de?text=Kinh+Te",
-      "desc": "<h3 style='color:#4ade80; font-weight:bold; font-size:1.6em; margin-bottom:20px; text-transform:uppercase; letter-spacing:2px; border-bottom:1px solid rgba(74, 222, 128, 0.5); padding-bottom:10px; display:inline-block'>3. Quyền Kinh tế</h3><ul style='list-style-type:disc; padding-left:20px; line-height:1.8; font-size:1.15em; color:#fff'><li>Quyền làm việc, lựa chọn nghề nghiệp, việc làm và nơi làm việc</li><li>Quyền được trả công xứng đáng - tiền lương phải đảm bảo mức sống phù hợp</li><li>Quyền sở hữu tài sản hợp pháp</li><li>Công bằng trong phân phối theo kết quả lao động, hiệu quả kinh tế, đồng thời theo mức đóng góp vốn và phân phối thông qua hệ thống an sinh xã hội</li></ul><div style='font-size:0.8rem; color:rgba(255,255,255,0.6); font-style:italic; margin-top:30px; border-top:1px solid rgba(255,255,255,0.2); padding-top:10px; display:inline-block'>Nguồn: Hiến pháp 2013</div>"
+      "bgImage": "https://ktmt.vnmediacdn.com/images/2024/12/18/98-1734507470-gdp-vietnam-20230331155457.jpg",
+      "layout": {
+        "columns": "1fr 1fr",
+        "rows": "1fr 1fr"
+      },
+      "cards": [
+        {
+          "title": "Quyền làm việc",
+          "text": "Lựa chọn nghề nghiệp, việc làm và nơi làm việc."
+        },
+        {
+          "title": "Công bằng lương",
+          "text": "Quyền được trả công xứng đáng, tiền lương phải đảm bảo mức sống phù hợp."
+        },
+        {
+          "title": "Sở hữu tài sản",
+          "text": "Quyền sở hữu tài sản hợp pháp."
+        },
+        {
+          "title": "Phân phối công bằng",
+          "text": "Phân phối theo kết quả lao động, hiệu quả kinh tế, và thông qua hệ thống an sinh xã hội."
+        }
+      ]
     },
     {
+      "slideTitle": "Quyền Văn hóa",
       "slideIndex": 4,
+      "mainContent": [
+        "Quyền văn hóa bao gồm quyền nghiên cứu khoa học và công nghệ, sáng tạo văn học nghệ thuật, quyền hưởng thụ và tiếp cận các giá trị văn hóa."
+      ],
       "slideType": "detail",
       "focusDomain": "cultural",
       "particleCount": 3200,
@@ -58,11 +143,32 @@
       "movementSpeed": 0.3,
       "clusteringLogic": "connected",
       "attractionRules": { "type": "network", "strength": 0.7 },
-      "bgImage": "https://placehold.co/600x400/2e0f2e/de4ade?text=Van+Hoa",
-      "desc": "<h3 style='color:#4ade80; font-weight:bold; font-size:1.6em; margin-bottom:20px; text-transform:uppercase; letter-spacing:2px; border-bottom:1px solid rgba(74, 222, 128, 0.5); padding-bottom:10px; display:inline-block'>4. Quyền Văn hóa</h3><ul style='list-style-type:disc; padding-left:20px; line-height:1.8; font-size:1.15em; color:#fff'><li>Quyền giáo dục - công dân có quyền và nghĩa vụ học tập</li><li>Quyền tham gia vào đời sống văn hóa</li><li>Quyền sử dụng các cơ sở văn hóa</li><li>Quyền thụ hưởng lợi ích từ hoạt động khoa học, văn học, nghệ thuật</li></ul><div style='font-size:0.8rem; color:rgba(255,255,255,0.6); font-style:italic; margin-top:30px; border-top:1px solid rgba(255,255,255,0.2); padding-top:10px; display:inline-block'>Nguồn: Hiến pháp 2013</div>"
+      "bgImage": "https://cdn-images.vtv.vn/66349b6076cb4dee98746cf1/2025/08/10/4e0d4d0b-2ba7-46fb-8180-5d50b7834bff-81611812061193630627545-74335693159858715645452.jpeg",
+      "layout": {
+        "columns": "1fr 1fr",
+        "rows": "1fr 1fr"
+      },
+      "cards": [
+        {
+          "title": "Quyền giáo dục",
+          "text": "Công dân có quyền và nghĩa vụ học tập."
+        },
+        {
+          "title": "Tham gia văn hóa",
+          "text": "Quyền tham gia vào đời sống văn hóa và sử dụng các cơ sở văn hóa."
+        },
+        {
+          "title": "Thụ hưởng lợi ích",
+          "text": "Quyền thụ hưởng lợi ích từ hoạt động khoa học, văn học, nghệ thuật."
+        }
+      ]
     },
     {
+      "slideTitle": "Quyền Xã hội",
       "slideIndex": 5,
+      "mainContent": [
+        "Quyền xã hội bao gồm quyền được bảo đảm an sinh xã hội, quyền được chăm sóc sức khỏe, quyền được bảo vệ hôn nhân và gia đình."
+      ],
       "slideType": "detail",
       "focusDomain": "social",
       "particleCount": 3500,
@@ -70,8 +176,58 @@
       "movementSpeed": 0.2,
       "clusteringLogic": "unity",
       "attractionRules": { "type": "one", "strength": 0.9 },
-      "bgImage": "https://placehold.co/600x400/2e2e0f/dede4a?text=Xa+Hoi",
-      "desc": "<h3 style='color:#4ade80; font-weight:bold; font-size:1.6em; margin-bottom:20px; text-transform:uppercase; letter-spacing:2px; border-bottom:1px solid rgba(74, 222, 128, 0.5); padding-bottom:10px; display:inline-block'>5. Quyền Xã hội</h3><ul style='list-style-type:disc; padding-left:20px; line-height:1.8; font-size:1.15em; color:#fff'><li>Quyền được bảo vệ và chăm sóc sức khỏe, bình đẳng trong việc sử dụng các dịch vụ y tế</li><li>Quyền an sinh xã hội - bảo hiểm xã hội, bảo trợ xã hội</li><li>Quyền kết hôn, ly hôn theo nguyên tắc tự nguyện, tiến bộ, vợ chồng bình đẳng</li><li>Quyền bình đẳng giới - nam nữ bình đẳng về mọi mặt</li><li>Quyền có nhà ở phù hợp</li></ul><div style='font-size:0.8rem; color:rgba(255,255,255,0.6); font-style:italic; margin-top:30px; border-top:1px solid rgba(255,255,255,0.2); padding-top:10px; display:inline-block'>Nguồn: Hiến pháp 2013</div>"
+      "bgImage": "https://th.bing.com/th/id/R.1decb2a1df4ca8df52170d0497a96416?rik=fKtxOO2E9BNW%2bw&riu=http%3a%2f%2finfina.vn%2fblog%2fwp-content%2fuploads%2f2022%2f11%2fan-sinh-xa-hoi-la-gi.jpg&ehk=%2fwec5zER3ka5Kx%2b7ZNSgAq5WC3t%2fWXne%2buc8tTjQnw8%3d&risl=&pid=ImgRaw&r=0",
+      "layout": {
+        "columns": "1fr 1fr",
+        "rows": "auto"
+      },
+      "cards": [
+        {
+          "title": "Chăm sóc sức khỏe",
+          "text": "Quyền được bảo vệ và chăm sóc sức khỏe, bình đẳng trong việc sử dụng các dịch vụ y tế."
+        },
+        {
+          "title": "An sinh xã hội",
+          "text": "Quyền an sinh xã hội - bảo hiểm xã hội, bảo trợ xã hội."
+        },
+        {
+          "title": "Hôn nhân & Gia đình",
+          "text": "Quyền kết hôn, ly hôn theo nguyên tắc tự nguyện, tiến bộ, vợ chồng bình đẳng."
+        },
+        {
+          "title": "Bình đẳng giới",
+          "text": "Nam nữ bình đẳng về mọi mặt."
+        },
+        {
+          "title": "Nhà ở",
+          "text": "Quyền có nhà ở phù hợp."
+        }
+      ]
+    },
+    {
+      "slideIndex": 6,
+      "slideType": "mindmap",
+      "slideTitle": "Sơ Đồ Tư Duy Quyền Con Người",
+      "mainContent": "Khám phá hệ thống quyền con người XHCN qua sơ đồ tư duy tương tác",
+      "particleCount": 2000,
+      "sizeRange": [0.8, 1.2],
+      "movementSpeed": 0.2,
+      "clusteringLogic": "uniform",
+      "attractionRules": { "type": "grid", "strength": 0.5 },
+      "iframeSrc": "sodotuduy.html"
+    },
+    {
+      "slideIndex": 7,
+      "slideType": "video",
+      "slideTitle": "Tự do hay tự lo",
+      "mainContent": "",
+      "particleCount": 2000,
+      "sizeRange": [0.8, 1.2],
+      "movementSpeed": 0.2,
+      "clusteringLogic": "uniform",
+      "attractionRules": { "type": "grid", "strength": 0.5 },
+      "videoSrc": "https://drive.google.com/file/d/1UWeYHlabsi_QdgJsoOgL2NhLSzBeV3Pp/preview"
     }
   ]
 }
+

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Timeline: Hành Trình Quyền Con Người</title>
+    <title>Hành Trình Nhân Quyền</title>
     
-    <link rel="stylesheet" href="css/timeline_labels.css">
+    <link rel="stylesheet" href="css/timeline_labels.css?v=2">
 
     <!-- Dependencies from Code2.html -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -126,9 +126,9 @@
         }
 
         #slide-info-overlay {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -48%);
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 85vw; height: 80vh; max-width: none; max-height: none; overflow: hidden;
-            display: flex; flex-direction: column; justify-content: center;
+            display: flex; flex-direction: row; justify-content: center; align-items: center;
             text-align: left; pointer-events: none; /* Let clicks pass to bg if needed, or backdrop */
             opacity: 0; transition: opacity 0.4s ease 0.1s;
             z-index: 190; padding: 0 5vw;
@@ -167,7 +167,7 @@
 
     <!-- Background Music -->
     <audio id="bg-music" loop>
-        <source src="audio/birds-animated-video.mp3" type="audio/mpeg">
+        <source src="audio/patriotic-epic.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Music Control UI -->
@@ -259,7 +259,7 @@
 
         <!-- Slide UI Text Overlay -->
         <div id="slide-info-overlay">
-            <p id="slide-desc"></p>
+            <!-- This will be the main container for the two-column layout -->
         </div>
         
         <!-- Bottom Hint -->

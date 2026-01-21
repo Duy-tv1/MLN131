@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sơ Đồ Quyền Con Người XHCN</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #fffde7;
+            background-image: radial-gradient(#fff9c4 15%, transparent 16%), radial-gradient(#fff9c4 15%, transparent 16%);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+            color: #4e342e;
+        }
+
+        #container {
+            width: 100vw;
+            height: 100vh;
+            cursor: grab;
+            z-index: 10;
+            position: relative;
+        }
+        #container:active { cursor: grabbing; }
+
+        /* --- BACKGROUND ĐỘNG --- */
+        .bg-sticker-container {
+            position: absolute; pointer-events: none; z-index: 0;
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10vh); opacity: 0; }
+        }
+        .flag-wave { display: inline-block; transform-origin: bottom center; animation: wave 2s ease-in-out infinite alternate; }
+        @keyframes wave { 0% { transform: rotate(-8deg) skewX(-2deg); } 100% { transform: rotate(8deg) skewX(2deg); } }
+        .normal-sticker { display: inline-block; animation: spin 6s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- D3 STYLES --- */
+        .link {
+            fill: none;
+            stroke: #ffcc80;
+            stroke-width: 1.5px;
+            stroke-dasharray: 4, 4; 
+            transition: all 0.5s;
+        }
+        .node { cursor: pointer; }
+        .node rect {
+            fill: #ffffff;
+            stroke: #ffab91;
+            stroke-width: 2px;
+            rx: 12; ry: 12;
+            filter: drop-shadow(2px 3px 4px rgba(0,0,0,0.1));
+            transition: all 0.3s ease;
+        }
+        .node:hover rect {
+            stroke: #d84315;
+            fill: #fff8e1;
+            transform: scale(1.02);
+        }
+        .node circle.category-dot { stroke: #fff; stroke-width: 2px; }
+        .node text {
+            font-size: 11px;
+            font-weight: 700;
+            fill: #4e342e;
+            pointer-events: none;
+        }
+        .node text.icon { font-size: 14px; }
+        .node circle.badge {
+            fill: #d32f2f;
+            stroke: #fff;
+            stroke-width: 1.5px;
+            display: none; 
+        }
+        .node--collapsed circle.badge { display: block; } 
+
+        /* Bảng chú thích */
+        .legend-panel {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px; border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 2px solid #ffcc80;
+            max-width: 280px; z-index: 20;
+            max-height: 85vh; overflow-y: auto;
+        }
+        .legend-panel h1 { margin: 0 0 10px 0; font-size: 16px; color: #bf360c; text-align: center; border-bottom: 2px dashed #ffcc80; padding-bottom: 10px; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 6px; font-size: 12px; color: #5d4037; font-weight: 600; }
+        .color-dot { width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        
+        /* Tooltip Box Riêng */
+        #custom-tooltip {
+            position: absolute;
+            opacity: 0;
+            background: #263238;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            pointer-events: none;
+            max-width: 300px;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            line-height: 1.4;
+        }
+
+        /* Source Footer */
+        .source-footer {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 11px;
+            color: #8d6e63;
+            font-style: italic;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="bg-animation"></div>
+    <div id="custom-tooltip"></div>
+
+    <div class="legend-panel">
+        <h1>🇻🇳 Bản Đồ Nhân Quyền</h1>
+        <p style="text-align: center; font-size: 11px; color: #795548; margin-bottom: 10px;">
+            Mô hình chi tiết & phân tầng
+        </p>
+        <div class="legend-item"><div class="color-dot" style="background:#d32f2f"></div>📚 1. Cơ sở Lý luận</div>
+        <div class="legend-item"><div class="color-dot" style="background:#1976d2"></div>🗳️ 2. Chính trị - Dân chủ</div>
+        <div class="legend-item"><div class="color-dot" style="background:#00796b"></div>⚖️ 3. Dân sự</div>
+        <div class="legend-item"><div class="color-dot" style="background:#fbc02d"></div>💰 4. Kinh tế</div>
+        <div class="legend-item"><div class="color-dot" style="background:#8e24aa"></div>🎨 5. Văn hóa</div>
+        <div class="legend-item"><div class="color-dot" style="background:#e64a19"></div>👨‍👩‍👧‍👦 6. Xã hội</div>
+        <p style="margin-top:10px; text-align:center; font-size:10px; color:#8d6e63; font-style:italic;">
+            (Bấm 🔴 để mở rộng • Rê chuột để xem giải nghĩa)
+        </p>
+    </div>
+
+    
+
+    <div id="container"></div>
+
+    <script>
+        // --- 1. DỮ LIỆU CÂY CHI TIẾT (FULL TEXT) ---
+        const treeData = {
+            "name": "QUYỀN CON NGƯỜI TRONG CNXH",
+            "icon": "🇻🇳",
+            "color": "#3e2723",
+            "children": [
+                {
+                    "name": "I. Cơ sở Lý luận",
+                    "icon": "📚",
+                    "color": "#d32f2f",
+                    "children": [
+                        { 
+                            "name": "Chủ nghĩa Mác-Lênin", 
+                            "icon": "📕", 
+                            "children": [
+                                { "name": "Giải phóng con người", "icon": "🕊️", "note": "Mục tiêu là xóa bỏ áp bức, bóc lột, để con người được tự do." },
+                                { "name": "Phát triển toàn diện", "icon": "🌟", "note": "Phát triển cả về thể chất, trí tuệ, tinh thần và đạo đức." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "II. Quyền Chính trị",
+                    "icon": "🗳️",
+                    "color": "#1976d2",
+                    "children": [
+                        { 
+                            "name": "Bầu cử & Ứng cử", 
+                            "icon": "📩",
+                            "children": [
+                                { "name": "Cơ quan Dân cử", "icon": "🏛️", "note": "Gồm Quốc hội (Trung ương) và Hội đồng nhân dân (Địa phương)." },
+                                { "name": "Nguyên tắc bầu cử", "icon": "✅", "note": "Phổ thông (ai cũng được bầu), Bình đẳng (phiếu ngang nhau), Trực tiếp, Bỏ phiếu kín." }
+                            ]
+                        },
+                        { 
+                            "name": "Tự do Ngôn luận", 
+                            "icon": "🗣️", 
+                            "children": [
+                                { "name": "Tự do Báo chí", "icon": "📰", "note": "Quyền được sáng tạo tác phẩm báo chí, tiếp cận thông tin chính thống." },
+                                { "name": "Tiếp cận thông tin", "icon": "📡", "note": "Được biết các thông tin về hoạt động của nhà nước (trừ bí mật quốc gia)." },
+                                { "name": "Hội họp & Lập hội", "icon": "👥", "note": "Thực hiện theo quy định của pháp luật để đảm bảo trật tự." }
+                            ]
+                        },
+                        { 
+                            "name": "Tham gia Quản lý", 
+                            "icon": "🤝", 
+                            "children": [
+                                { "name": "Dân chủ trực tiếp", "icon": "🙋", "note": "Dân trực tiếp biểu quyết các vấn đề trọng đại (Trưng cầu ý dân)." },
+                                { "name": "Dân chủ đại diện", "icon": "👔", "note": "Thông qua đại biểu Quốc hội và HĐND các cấp." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "III. Quyền Dân sự",
+                    "icon": "⚖️",
+                    "color": "#00796b",
+                    "children": [
+                        { 
+                            "name": "Quyền Sống", 
+                            "icon": "❤️", 
+                            "children": [
+                                { "name": "Bảo hộ Tính mạng", "icon": "🛡️", "note": "Pháp luật trừng trị nghiêm khắc các hành vi xâm phạm tính mạng người khác." },
+                                { "name": "Bảo hộ Thân thể", "icon": "👮", "note": "Không ai bị bắt, giam giữ trái luật; không bị tra tấn, nhục hình." }
+                            ]
+                        },
+                        { 
+                            "name": "Tự do Tín ngưỡng", 
+                            "icon": "🙏", 
+                            "children": [
+                                { "name": "Tự do Lựa chọn", "icon": "⛪", "note": "Quyền theo hoặc không theo tôn giáo nào. Không ai được ép buộc." },
+                                { "name": "Bình đẳng Tôn giáo", "icon": "⚖️", "note": "Các tôn giáo đều bình đẳng, hoạt động trong khuôn khổ pháp luật." }
+                            ]
+                        },
+                        { 
+                            "name": "Quyền Riêng tư", 
+                            "icon": "🔒", 
+                            "children": [
+                                { "name": "Bí mật Thư tín", "icon": "✉️", "note": "Điện thoại, thư từ là riêng tư, không ai được tự ý xem/nghe trộm." },
+                                { "name": "Bất khả xâm phạm chỗ ở", "icon": "🏠", "note": "Không ai được tự ý vào nhà người khác nếu không có lệnh hoặc sự đồng ý." }
+                            ]
+                        },
+                        { 
+                            "name": "Đi lại & Cư trú", 
+                            "icon": "🚶", 
+                            "children": [
+                                { "name": "Tự do Đi lại", "icon": "🛣️", "note": "Đi lại trong nước, ra nước ngoài và từ nước ngoài về nước." },
+                                { "name": "Tự do Cư trú", "icon": "🏘️", "note": "Quyền chọn nơi sinh sống, đăng ký thường trú/tạm trú." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "IV. Quyền Kinh tế",
+                    "icon": "💰",
+                    "color": "#fbc02d",
+                    "children": [
+                        { 
+                            "name": "Sở hữu Tài sản", 
+                            "icon": "🔑", 
+                            "children": [
+                                { "name": "Tư liệu Sinh hoạt", "icon": "🏠", "note": "Nhà ở, xe cộ, đồ dùng cá nhân..." },
+                                { "name": "Tư liệu Sản xuất", "icon": "🏭", "note": "Vốn liếng, máy móc, nhà xưởng để kinh doanh." },
+                                { "name": "Quyền Thừa kế", "icon": "📝", "note": "Quyền để lại tài sản cho người khác sau khi qua đời." }
+                            ]
+                        },
+                        { 
+                            "name": "Lao động & Việc làm", 
+                            "icon": "💼", 
+                            "children": [
+                                { "name": "Tự do chọn nghề", "icon": "👷", "note": "Làm bất cứ nghề gì pháp luật không cấm." },
+                                { "name": "Lương công bằng", "icon": "💵", "note": "Trả lương theo năng suất, không thấp hơn lương tối thiểu vùng." },
+                                { "name": "An toàn lao động", "icon": "⛑️", "note": "Được trang bị bảo hộ, làm việc trong môi trường an toàn." }
+                            ]
+                        },
+                        { 
+                            "name": "Tự do Kinh doanh", 
+                            "icon": "🚀", 
+                            "children": [
+                                { "name": "Mọi ngành nghề", "icon": "🏢", "note": "Kinh doanh tất cả ngành nghề mà luật không cấm." },
+                                { "name": "Cạnh tranh lành mạnh", "icon": "🤝", "note": "Chống độc quyền, gian lận thương mại." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "V. Quyền Văn hóa",
+                    "icon": "🎨",
+                    "color": "#8e24aa",
+                    "children": [
+                        { 
+                            "name": "Quyền Giáo dục", 
+                            "icon": "🎓", 
+                            "children": [
+                                { "name": "Học tập suốt đời", "icon": "📚", "note": "Ai cũng có quyền đi học, không giới hạn độ tuổi." },
+                                { "name": "Phổ cập Tiểu học", "icon": "🏫", "note": "Giáo dục tiểu học là bắt buộc và miễn học phí." },
+                                { "name": "Cơ hội công bằng", "icon": "⚖️", "note": "Hỗ trợ học bổng cho người nghèo, vùng sâu vùng xa." }
+                            ]
+                        },
+                        { 
+                            "name": "Sáng tạo Văn hóa", 
+                            "icon": "🔬", 
+                            "children": [
+                                { "name": "Nghiên cứu Khoa học", "icon": "🧪", "note": "Tự do phát minh, sáng chế, công bố công trình." },
+                                { "name": "Sáng tác Nghệ thuật", "icon": "🖌️", "note": "Viết văn, làm thơ, vẽ tranh, làm phim..." }
+                            ]
+                        },
+                        { 
+                            "name": "Hưởng thụ Văn hóa", 
+                            "icon": "🎭", 
+                            "children": [
+                                { "name": "Tiếp cận Di sản", "icon": "🏛️", "note": "Tham quan bảo tàng, di tích, lễ hội." },
+                                { "name": "Sở hữu Trí tuệ", "icon": "®️", "note": "Bảo vệ bản quyền tác giả, không ai được sao chép trái phép." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "VI. Quyền Xã hội",
+                    "icon": "👨‍👩‍👧‍👦",
+                    "color": "#e64a19",
+                    "children": [
+                        { 
+                            "name": "An sinh Xã hội", 
+                            "icon": "☂️", 
+                            "children": [
+                                { "name": "Bảo hiểm Xã hội", "icon": "📑", "note": "Lương hưu, chế độ thai sản, tai nạn lao động." },
+                                { "name": "Bảo hiểm Thất nghiệp", "icon": "📉", "note": "Trợ cấp tiền khi bị mất việc làm." },
+                                { "name": "Bảo trợ Xã hội", "icon": "♿", "note": "Nhà nước nuôi dưỡng người già neo đơn, trẻ mồ côi." }
+                            ]
+                        },
+                        { 
+                            "name": "Y tế & Sức khỏe", 
+                            "icon": "🏥", 
+                            "children": [
+                                { "name": "Bảo hiểm Y tế", "icon": "⚕️", "note": "Chi trả viện phí khi ốm đau." },
+                                { "name": "Tiêm chủng mở rộng", "icon": "💉", "note": "Trẻ em được tiêm vắc-xin miễn phí." }
+                            ]
+                        },
+                        { 
+                            "name": "Hôn nhân & Gia đình", 
+                            "icon": "💍", 
+                            "children": [
+                                { "name": "Tự nguyện", "icon": "❤️", "note": "Kết hôn do nam nữ tự quyết định, không ép buộc." },
+                                { "name": "Bình đẳng", "icon": "⚖️", "note": "Vợ chồng có quyền ngang nhau trong gia đình." }
+                            ]
+                        },
+                        {
+                            "name": "Nhóm Yếu thế",
+                            "icon": "🧸",
+                            "children": [
+                                { "name": "Bảo vệ Trẻ em", "icon": "👶", "note": "Chống xâm hại, bạo hành trẻ em." },
+                                { "name": "Phụ nữ mang thai", "icon": "🤰", "note": "Chế độ thai sản, chăm sóc y tế, không bị sa thải." },
+                                { "name": "Người khuyết tật", "icon": "🦽", "note": "Hỗ trợ việc làm, xe lăn, lối đi riêng." },
+                                { "name": "Người cao tuổi", "icon": "👵", "note": "Được chăm sóc y tế, thăm hỏi." }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // --- 2. D3.JS SETUP & LOGIC ---
+        const container = document.getElementById('container');
+        const tooltip = document.getElementById('custom-tooltip');
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        
+        const svg = d3.select("#container").append("svg")
+            .attr("width", "100%")
+            .attr("height", "100%");
+
+        const g = svg.append("g")
+            .attr("transform", "translate(100,0)"); 
+
+        svg.call(d3.zoom().scaleExtent([0.1, 4]).on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            }))
+            .on("dblclick.zoom", null);
+
+        let i = 0;
+        const duration = 500;
+        let root;
+        const tree = d3.tree().nodeSize([55, 260]); 
+
+        root = d3.hierarchy(treeData, d => d.children);
+        root.x0 = height / 2;
+        root.y0 = 0;
+
+        function inheritColors(node, parentColor) {
+            if (!node.data.color && parentColor) node.data.color = parentColor;
+            if (node.children) node.children.forEach(child => inheritColors(child, node.data.color));
+        }
+        inheritColors(root, root.data.color);
+
+        // --- LOGIC THU GỌN ---
+        function collapseAll(d) {
+            if(d.children) {
+                d.children.forEach(collapseAll); 
+                d._children = d.children; 
+                d.children = null; 
+            }
+        }
+        if(root.children) {
+            root.children.forEach(collapseAll);
+        }
+
+        update(root);
+
+        // --- UPDATE FUNCTION ---
+        function update(source) {
+            const treeData = tree(root);
+            const nodes = treeData.descendants();
+            const links = treeData.links();
+
+            nodes.forEach(d => { d.y = d.depth * 250; });
+
+            const node = g.selectAll('g.node')
+                .data(nodes, d => d.id || (d.id = ++i));
+
+            const nodeEnter = node.enter().append('g')
+                .attr('class', 'node')
+                .attr("transform", d => `translate(${source.y0},${source.x0})`)
+                .on('click', click)
+                // --- CUSTOM TOOLTIP EVENT ---
+                .on('mouseover', function(event, d) {
+                    if (d.data.note) {
+                        tooltip.style.opacity = 1;
+                        tooltip.innerHTML = `<strong>${d.data.name}</strong><br/>💡 ${d.data.note}`;
+                        tooltip.style.left = (event.pageX + 15) + 'px';
+                        tooltip.style.top = (event.pageY - 28) + 'px';
+                    }
+                })
+                .on('mouseout', function() {
+                    tooltip.style.opacity = 0;
+                });
+
+            // Thẻ nền
+            nodeEnter.append('rect')
+                .attr('width', 210)
+                .attr('height', 42)
+                .attr('x', -22)
+                .attr('y', -21)
+                .style("fill", "#fff")
+                .style("stroke", d => d.data.color || "#ccc");
+
+            // Chấm tròn
+            nodeEnter.append('circle')
+                .attr('class', 'category-dot')
+                .attr('r', 16)
+                .attr('cx', -22)
+                .attr('cy', 0)
+                .style("fill", d => d.data.color || "#ccc");
+
+            // Icon
+            nodeEnter.append('text')
+                .attr("class", "icon")
+                .attr("x", -22)
+                .attr("y", 5)
+                .attr("text-anchor", "middle")
+                .style("fill", "#fff")
+                .text(d => d.data.icon || "•");
+
+            // Tên
+            nodeEnter.append('text')
+                .attr("x", 5)
+                .attr("y", 4)
+                .text(d => {
+                    const maxLen = 30;
+                    return d.data.name.length > maxLen ? d.data.name.substring(0, maxLen-2) + "..." : d.data.name;
+                });
+
+            // Badge đỏ
+            nodeEnter.append('circle')
+                .attr('class', 'badge')
+                .attr('r', 5)
+                .attr('cx', 188)
+                .attr('cy', 0);
+
+            const nodeUpdate = node.merge(nodeEnter);
+
+            nodeUpdate.transition()
+                .duration(duration)
+                .attr("transform", d => `translate(${d.y},${d.x})`);
+
+            nodeUpdate.select('rect')
+                .style("stroke", d => d.data.color || "#ccc");
+
+            nodeUpdate.classed('node--collapsed', d => d._children && d._children.length > 0);
+
+            const nodeExit = node.exit().transition()
+                .duration(duration)
+                .attr("transform", d => `translate(${source.y},${source.x})`)
+                .remove();
+
+            nodeExit.select('rect').attr('width', 0);
+            nodeExit.select('text').style('opacity', 0);
+
+            const link = g.selectAll('path.link')
+                .data(links, d => d.target.id);
+
+            const linkEnter = link.enter().insert('path', "g")
+                .attr("class", "link")
+                .attr('d', d => {
+                    const o = {x: source.x0, y: source.y0};
+                    return diagonal(o, o);
+                })
+                .style("stroke", d => d.target.data.color || "#ccc");
+
+            const linkUpdate = link.merge(linkEnter);
+            linkUpdate.transition().duration(duration).attr('d', d => diagonal(d.source, d.target));
+            
+            const linkExit = link.exit().transition().duration(duration)
+                .attr('d', d => {
+                    const o = {x: source.x, y: source.y};
+                    return diagonal(o, o);
+                }).remove();
+
+            nodes.forEach(d => { d.x0 = d.x; d.y0 = d.y; });
+
+            function diagonal(s, d) {
+                const startX = s.y + 188;
+                const endX = d.y - 22;
+                return `M ${startX} ${s.x}
+                        C ${(startX + endX) / 2} ${s.x},
+                          ${(startX + endX) / 2} ${d.x},
+                          ${endX} ${d.x}`;
+            }
+
+            function click(event, d) {
+                if (d.children) {
+                    d._children = d.children;
+                    d.children = null;
+                } else {
+                    d.children = d._children;
+                    d._children = null;
+                }
+                update(d);
+            }
+        }
+        
+        // --- STICKER EFFECT ---
+        const bgContainer = document.getElementById('bg-animation');
+        const stickers = [
+            { text: '🇻🇳', type: 'flag' }, { text: '⚖️', type: 'normal' }, 
+            { text: '❤️', type: 'normal' }, { text: '⭐', type: 'normal' }, 
+            { text: '🕊️', type: 'normal' }, { text: '📚', type: 'normal' }
+        ];
+        function createSticker() {
+            const container = document.createElement('div');
+            container.classList.add('bg-sticker-container');
+            const item = stickers[Math.floor(Math.random() * stickers.length)];
+            const content = document.createElement('span');
+            content.innerText = item.text;
+            if (item.type === 'flag') {
+                content.classList.add('flag-wave');
+                container.style.fontSize = (Math.random() * 20 + 25) + 'px';
+            } else {
+                content.classList.add('normal-sticker');
+                container.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            }
+            container.appendChild(content);
+            container.style.left = Math.random() * 100 + 'vw';
+            container.style.animationDuration = (Math.random() * 10 + 20) + 's';
+            bgContainer.appendChild(container);
+            setTimeout(() => { container.remove(); }, 30000);
+        }
+        setInterval(createSticker, 1500);
+    </script>
+</body>
+</html>

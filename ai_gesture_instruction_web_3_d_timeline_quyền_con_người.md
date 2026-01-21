@@ -29,16 +29,48 @@ AI / hệ thống triển khai phải tuân thủ đúng các quy tắc và hàn
 
 ---
 
-## 3. ĐỊNH NGHĨA TRẠNG THÁI TAY (HAND STATES)
 
-* FIST (Nắm tay): tất cả các ngón cong lại.
-* OPEN PALM (Mở tay): từ 4–5 ngón duỗi thẳng.
-* ONE FINGER: chỉ ngón trỏ.
-* TWO FINGERS: trỏ + giữa.
-* THREE FINGERS: trỏ + giữa + áp út.
-* FOUR FINGERS: trỏ + giữa + áp út + út.
-* ZOOM GESTURE: thay đổi khoảng cách giữa hai bàn tay.
-* LEFT / RIGHT POINT: hướng tay lệch trái hoặc phải theo trục X.
+# FILE HƯỚNG DẪN AI
+
+## Tương tác cử chỉ cho Timeline Web 3D
+
+### Chủ đề: Quyền con người trong tiến trình phát triển xã hội (Nguyên thủy → Cộng sản chủ nghĩa)
+
+---
+
+## 1. MỤC ĐÍCH FILE NÀY
+
+File hướng dẫn này dùng để:
+
+* Làm **AI Prompt System / Design Brief**
+* Chuẩn hóa **logic cử chỉ tay**
+* Áp dụng cho **web 3D tương tác đơn giản nhưng hiệu quả**
+
+AI / hệ thống triển khai phải tuân thủ đúng các quy tắc và hành vi dưới đây.
+
+---
+
+## 2. NGUYÊN TẮC NHẬN DIỆN CỬ CHỈ (QUY TẮC TOÀN CỤC)
+
+1. Mọi cử chỉ chỉ được kích hoạt khi **giữ ổn định tối thiểu 2 giây**.
+2. Nếu cử chỉ bị phá vỡ trước 2 giây → **hủy nhận diện**.
+3. Chỉ cho phép **1 cử chỉ hợp lệ tại một thời điểm**.
+4. Cử chỉ **2 tay có độ ưu tiên cao hơn 1 tay**.
+5. Khi phát hiện cử chỉ mới → reset toàn bộ timer cũ.
+6. Khi AI Command Terminal mở → khóa các cử chỉ khác.
+
+---
+
+## 3. ĐỊNH NGHĨA TRẠNG THÁI TAY
+
+* NẮM TAY (FIST): tất cả các ngón cong lại.
+* MỞ TAY (OPEN PALM): từ 4–5 ngón duỗi thẳng.
+* 1 NGÓN: chỉ ngón trỏ.
+* 2 NGÓN: trỏ + giữa.
+* 3 NGÓN: trỏ + giữa + áp út.
+* 4 NGÓN: trỏ + giữa + áp út + út.
+* CỬ CHỈ ZOOM: thay đổi khoảng cách giữa hai bàn tay.
+* CHỈ TRÁI / PHẢI: hướng tay lệch trái hoặc phải theo trục X.
 
 ---
 
@@ -46,11 +78,11 @@ AI / hệ thống triển khai phải tuân thủ đúng các quy tắc và hàn
 
 ### 4.1. Quay về Timeline tổng thể
 
-**Gesture**: Hai bàn tay đều ở trạng thái FIST
+**Cử chỉ**: Hai bàn tay đều ở trạng thái NẮM TAY
 
-**Hold**: ≥ 2 giây
+**Giữ**: ≥ 2 giây
 
-**Action**:
+**Hành động**:
 
 * Camera zoom out nhẹ
 * Tất cả các hạt quy tụ về trục timeline
@@ -58,11 +90,11 @@ AI / hệ thống triển khai phải tuân thủ đúng các quy tắc và hàn
 
 ---
 
-### 4.2. Chọn các hình thái xã hội (Timeline Stage Selection)
+### 4.2. Chọn các hình thái xã hội (Chọn giai đoạn Timeline)
 
 **Quy tắc chung**:
 
-* Một tay FIST (tay neo trạng thái)
+* Một tay NẮM TAY (tay neo trạng thái)
 * Một tay thể hiện số ngón tương ứng với giai đoạn
 * Giữ ≥ 2 giây
 
@@ -96,11 +128,11 @@ AI / hệ thống triển khai phải tuân thủ đúng các quy tắc và hàn
 
 ### 4.3. Trở về trạng thái hỗn mang
 
-**Gesture**: Hai bàn tay đều OPEN PALM
+**Cử chỉ**: Hai bàn tay đều MỞ TAY
 
-**Hold**: ≥ 2 giây
+**Giữ**: ≥ 2 giây
 
-**Action**:
+**Hành động**:
 
 * Timeline tan rã
 * Hạt phát tán ra không gian
@@ -108,16 +140,16 @@ AI / hệ thống triển khai phải tuân thủ đúng các quy tắc và hàn
 
 ---
 
-### 4.4. Zoom In / Zoom Out
+### 4.4. Phóng to / Thu nhỏ (Zoom In / Zoom Out)
 
-**Gesture**:
+**Cử chỉ**:
 
-* Một tay OPEN PALM (tay chính)
-* Tay còn lại thực hiện ZOOM GESTURE
+* Một tay MỞ TAY (tay chính)
+* Tay còn lại thực hiện CỬ CHỈ ZOOM
 
-**Hold**: ≥ 2 giây để kích hoạt, sau đó zoom theo chuyển động
+**Giữ**: ≥ 2 giây để kích hoạt, sau đó zoom theo chuyển động
 
-**Action**:
+**Hành động**:
 
 * Camera tiến / lùi mượt
 
@@ -125,14 +157,14 @@ AI / hệ thống triển khai phải tuân thủ đúng các quy tắc và hàn
 
 ### 4.5. Xoay không gian trái / phải
 
-**Gesture**:
+**Cử chỉ**:
 
-* Một tay OPEN PALM
+* Một tay MỞ TAY
 * Tay còn lại chỉ sang trái hoặc phải
 
-**Hold**: ≥ 2 giây
+**Giữ**: ≥ 2 giây
 
-**Action**:
+**Hành động**:
 
 * Toàn bộ hệ hạt và timeline xoay quanh trục Y
 
@@ -140,15 +172,15 @@ AI / hệ thống triển khai phải tuân thủ đúng các quy tắc và hàn
 
 ### 4.6. Cuộn nội dung thông tin
 
-**Gesture**:
+**Cử chỉ**:
 
 * Hai bàn tay mở
 * Hai bàn tay nằm ngang
 * Đầu ngón tay hướng vào nhau
 
-**Hold**: ≥ 2 giây
+**Giữ**: ≥ 2 giây
 
-**Action**:
+**Hành động**:
 
 * Di chuyển tay lên → cuộn nội dung lên
 * Di chuyển tay xuống → cuộn nội dung xuống
@@ -159,26 +191,26 @@ AI / hệ thống triển khai phải tuân thủ đúng các quy tắc và hàn
 
 #### Mở Terminal
 
-**Gesture**: Hai bàn tay đều giơ TWO FINGERS
+**Cử chỉ**: Hai bàn tay đều giơ 2 NGÓN
 
-**Hold**: ≥ 2 giây
+**Giữ**: ≥ 2 giây
 
-**Action**:
+**Hành động**:
 
-* Mở AI Command Terminal overlay
+* Mở giao diện AI Command Terminal
 * Làm tối nhẹ không gian nền
-* Khóa các gesture khác
+* Khóa các cử chỉ khác
 
 #### Đóng Terminal
 
-**Gesture**: Hai bàn tay đều giơ THREE FINGERS
+**Cử chỉ**: Hai bàn tay đều giơ 3 NGÓN
 
-**Hold**: ≥ 2 giây
+**Giữ**: ≥ 2 giây
 
-**Action**:
+**Hành động**:
 
 * Đóng Terminal
-* Trả lại quyền điều khiển gesture chính
+* Trả lại quyền điều khiển cử chỉ chính
 
 ---
 
@@ -199,216 +231,215 @@ AI / hệ thống triển khai phải tuân thủ đúng các quy tắc và hàn
 
 ## 7. KẾT THÚC FILE
 
-File instruction này là chuẩn duy nhất để:
+File hướng dẫn này là chuẩn duy nhất để:
 
-* Huấn luyện AI hiểu gesture
+* Huấn luyện AI hiểu cử chỉ
 * Triển khai logic tương tác
 * Đảm bảo tính nhất quán trải nghiệm
 
-Không thêm, không bớt, không diễn giải lại logic gesture ngoài file này.
+Không thêm, không bớt, không diễn giải lại logic cử chỉ ngoài file này.
 
 ---
 
-## SLIDE CONTENT MODE (DEEP DIVE PER SOCIAL SYSTEM)
+## CHẾ ĐỘ SLIDE NỘI DUNG (DEEP DIVE THEO HỆ THỐNG XÃ HỘI)
 
-### MODE OVERVIEW
+### TỔNG QUAN CHẾ ĐỘ
 
-This system introduces a **locked content exploration mode** per social system.
-When inside content mode, global navigation (timeline, chaos, system switching) is DISABLED.
-Only content-specific gestures are accepted.
+Hệ thống này giới thiệu **chế độ khám phá nội dung bị khóa** cho từng hệ thống xã hội.
+Khi ở trong chế độ nội dung, các thao tác điều hướng toàn cục (timeline, hỗn mang, chuyển hệ) sẽ BỊ VÔ HIỆU.
+Chỉ các cử chỉ đặc thù nội dung mới được chấp nhận.
 
-This reinforces focus, immersion, and prevents accidental context switching.
-
----
-
-## ENTER / EXIT CONTENT MODE (GLOBAL RULE)
-
-### ENTER CONTENT MODE
-
-* Gesture: **7 fingers raised (both hands combined)**
-* Context-sensitive: applies ONLY to the currently active social system
-* Effect:
-
-  * Transition from system overview → internal content space
-  * Particle system restructures into narrative clusters
-  * Timeline, chaos, and system-switch gestures are temporarily locked
-
-### EXIT CONTENT MODE
-
-* Gesture: **8 fingers raised (both hands combined)**
-* Effect:
-
-  * Exit content space
-  * Return to the SAME social system overview (not timeline, not chaos)
-  * Restore global navigation gestures
-
-Gesture must be held for **≥ 2 seconds** to activate.
+Điều này tăng sự tập trung, nhập vai và tránh chuyển ngữ cảnh ngoài ý muốn.
 
 ---
 
-## CONTENT MODE BEHAVIOR RULES (CRITICAL)
+## VÀO / THOÁT CHẾ ĐỘ NỘI DUNG (QUY TẮC TOÀN CỤC)
 
-When Content Mode is ACTIVE:
+### VÀO CHẾ ĐỘ NỘI DUNG
 
-* ❌ Cannot switch social systems
-* ❌ Cannot enter chaos / particle dispersion
-* ❌ Cannot access timeline aggregation
-* ❌ Cannot trigger observer effect
+* Cử chỉ: **7 ngón giơ lên (cộng cả hai tay)**
+* Theo ngữ cảnh: chỉ áp dụng cho hệ thống xã hội đang hoạt động
+* Hiệu ứng:
 
-Only slide-navigation gestures are allowed.
-All other gestures are ignored.
+  * Chuyển từ tổng quan hệ thống → không gian nội dung bên trong
+  * Hệ hạt tái cấu trúc thành các cụm kể chuyện
+  * Các cử chỉ timeline, hỗn mang, chuyển hệ tạm thời bị khóa
 
-This creates a **hard interaction boundary**.
+### THOÁT CHẾ ĐỘ NỘI DUNG
 
----
+* Cử chỉ: **8 ngón giơ lên (cộng cả hai tay)**
+* Hiệu ứng:
 
-## SLIDE NAVIGATION GESTURES (CONTENT MODE ONLY)
+  * Thoát không gian nội dung
+  * Quay lại đúng tổng quan hệ thống xã hội đó (không về timeline, không về hỗn mang)
+  * Khôi phục các cử chỉ điều hướng toàn cục
 
-### NEXT SLIDE
-
-* Gesture: **1 finger raised (single hand)**
-* Effect:
-
-  * Transition to next conceptual slide
-  * Particle clusters reorganize to express the next human-rights concept
-  * Motion flows forward in spatial depth
-
-### PREVIOUS SLIDE
-
-* Gesture: **2 fingers raised (single hand)**
-* Effect:
-
-  * Return to previous slide
-  * Particle motion reverses or contracts accordingly
-
-Gesture must be held for **≥ 2 seconds** to prevent accidental triggers.
+Cử chỉ phải được giữ **≥ 2 giây** để kích hoạt.
 
 ---
 
-## SLIDE STRUCTURE (ABSTRACT, NON-VERBAL)
+## QUY TẮC HÀNH VI CHẾ ĐỘ NỘI DUNG (QUAN TRỌNG)
 
-Each slide represents ONE aspect of human rights within the active social system.
+Khi Chế độ Nội dung ĐANG HOẠT ĐỘNG:
 
-Slides differ ONLY by:
+* ❌ Không được chuyển hệ thống xã hội
+* ❌ Không được vào hỗn mang / phân tán hạt
+* ❌ Không được truy cập timeline tổng hợp
+* ❌ Không được kích hoạt hiệu ứng quan sát
 
-* particle density
-* movement constraints
-* force directionality
-* clustering logic
-* degrees of freedom
+Chỉ các cử chỉ điều hướng slide được phép.
+Mọi cử chỉ khác đều bị bỏ qua.
 
-No text, symbols, icons, or labels are allowed.
-Meaning is expressed purely through motion and structure.
-
----
-
-## STATE MACHINE PRIORITY (SIMPLIFIED)
-
-Priority order (highest → lowest):
-
-1. Content Mode gestures (1, 2, 8 fingers)
-2. Content UI interaction (mouse / pointer on slide bar)
-3. System-level gestures (timeline, chaos, rotation, zoom)
-4. Ambient motion (idle state)
-
-If Content Mode is active, priorities 3 and 4 are ignored.
+Điều này tạo ra **ranh giới tương tác cứng**.
 
 ---
 
-## CONTENT SLIDE NAVIGATION BAR (UI + GESTURE HYBRID)
+## CỬ CHỈ ĐIỀU HƯỚNG SLIDE (CHỈ TRONG CHẾ ĐỘ NỘI DUNG)
 
-### UI DESCRIPTION
+### SLIDE TIẾP THEO
 
-When Content Mode is ACTIVE:
+* Cử chỉ: **1 ngón giơ lên (một tay)**
+* Hiệu ứng:
 
-* Display a **minimal horizontal slide bar**
-* Position: **bottom center of the screen**
-* Appearance:
+  * Chuyển sang slide khái niệm tiếp theo
+  * Các cụm hạt tái tổ chức để thể hiện khái niệm quyền con người tiếp theo
+  * Chuyển động tiến về phía trước trong không gian
 
-  * Thin horizontal line
-  * Evenly spaced numeric markers: 1 2 3 4 5 6 7 8 9 …
-  * Current slide is highlighted subtly (brightness or size only)
+### SLIDE TRƯỚC
 
-No text labels beyond numbers.
-No decorative UI elements.
+* Cử chỉ: **2 ngón giơ lên (một tay)**
+* Hiệu ứng:
 
----
+  * Quay lại slide trước
+  * Chuyển động hạt đảo ngược hoặc co lại tương ứng
 
-### MOUSE / POINTER INTERACTION
-
-* User may click directly on any slide number
-* Clicking a number:
-
-  * Instantly navigates to that slide
-  * Triggers the same particle transition logic as gesture-based navigation
-
-Mouse interaction is ONLY enabled inside Content Mode.
-Outside Content Mode, the slide bar does not exist.
+Cử chỉ phải được giữ **≥ 2 giây** để tránh kích hoạt nhầm.
 
 ---
 
-### SYNCHRONIZATION RULES
+## CẤU TRÚC SLIDE (TRỪU TƯỢNG, PHI NGÔN NGỮ)
 
-* Gesture navigation (1 / 2 fingers) and mouse clicks MUST stay synchronized
-* When a slide changes:
+Mỗi slide đại diện cho MỘT khía cạnh quyền con người trong hệ thống xã hội đang hoạt động.
 
-  * Update highlighted slide index
-  * Animate slide bar indicator smoothly
+Các slide chỉ khác nhau bởi:
 
-There is always ONE active slide.
+* mật độ hạt
+* ràng buộc chuyển động
+* hướng lực
+* logic cụm
+* mức độ tự do
 
----
-
-### BEHAVIORAL CONSTRAINTS (IMPORTANT)
-
-* Clicking slides does NOT unlock system-level navigation
-* Mouse input cannot exit Content Mode
-* Only the **8-finger gesture** exits Content Mode
-
-This preserves intentional exit via body-based interaction.
+Không có văn bản, biểu tượng, icon hay nhãn.
+Ý nghĩa chỉ thể hiện qua chuyển động và cấu trúc.
 
 ---
 
-### DESIGN INTENT (DO NOT RENDER)
+## ƯU TIÊN TRẠNG THÁI (STATE MACHINE PRIORITY - ĐƠN GIẢN HÓA)
 
-The slide bar provides:
+Thứ tự ưu tiên (cao → thấp):
 
-* Cognitive orientation ("where am I")
-* Manual precision for advanced users
+1. Cử chỉ chế độ nội dung (1, 2, 8 ngón)
+2. Tương tác UI nội dung (chuột / pointer trên thanh slide)
+3. Cử chỉ cấp hệ thống (timeline, hỗn mang, xoay, zoom)
+4. Chuyển động nền (trạng thái chờ)
 
-While gestures provide:
-
-* Embodied, intentional navigation
-
-Both coexist, but **the body has authority over context**.
-
-Understanding remains intentional, not passive.
+Nếu chế độ nội dung đang hoạt động, bỏ qua ưu tiên 3 và 4.
 
 ---
 
-## CONTENT DATA ARCHITECTURE (DATA-DRIVEN SYSTEM)
+## THANH ĐIỀU HƯỚNG SLIDE (KẾT HỢP UI + CỬ CHỈ)
 
-### CORE PRINCIPLE
+### MÔ TẢ UI
 
-All narrative content MUST be driven from external data files.
-No human-rights logic, slide count, or particle behavior is hardcoded.
+Khi Chế độ Nội dung ĐANG HOẠT ĐỘNG:
 
-The engine only reads data.
-Meaning emerges from configuration.
+* Hiển thị **thanh slide ngang tối giản**
+* Vị trí: **giữa dưới màn hình**
+* Giao diện:
+
+  * Đường ngang mảnh
+  * Các số đánh dấu đều nhau: 1 2 3 4 5 6 7 8 9 …
+  * Slide hiện tại được làm nổi bật nhẹ (sáng hoặc to hơn)
+
+Không có nhãn văn bản ngoài số.
+Không có yếu tố UI trang trí.
+
+### TƯƠNG TÁC CHUỘT / POINTER
+
+* Người dùng có thể click trực tiếp vào số slide bất kỳ
+* Click vào số:
+
+  * Lập tức chuyển đến slide đó
+  * Kích hoạt logic chuyển đổi hạt giống như cử chỉ
+
+Tương tác chuột CHỈ hoạt động trong chế độ nội dung.
+Ngoài chế độ này, thanh slide không tồn tại.
 
 ---
 
-## DATA FILE STRUCTURE (HIGH LEVEL)
+### QUY TẮC ĐỒNG BỘ
 
-Each social system is defined as a **data object**.
-Each object contains an ordered list of **slides**.
-Each slide defines particle behavior parameters ONLY.
+* Điều hướng slide (1 / 2 ngón) và click chuột PHẢI luôn đồng bộ
+* Khi đổi slide:
 
-The same rendering engine is reused for all systems.
+  * Cập nhật chỉ số slide nổi bật
+  * Thanh trượt slide chuyển động mượt
+
+Luôn chỉ có MỘT slide đang hoạt động.
 
 ---
 
-## MASTER DATA INDEX
+### RÀNG BUỘC HÀNH VI (QUAN TRỌNG)
+
+* Click slide KHÔNG mở lại điều hướng toàn cục
+* Chuột KHÔNG thể thoát chế độ nội dung
+* Chỉ cử chỉ **8 ngón** mới thoát chế độ nội dung
+
+Điều này đảm bảo việc thoát chế độ nội dung là chủ động bằng cơ thể.
+
+---
+
+### Ý ĐỒ THIẾT KẾ (KHÔNG HIỂN THỊ)
+
+Thanh slide cung cấp:
+
+* Định hướng nhận thức ("đang ở đâu")
+* Độ chính xác thủ công cho người dùng nâng cao
+
+Cử chỉ mang lại:
+
+* Điều hướng nhập vai, chủ động
+
+Hai hình thức cùng tồn tại, nhưng **cơ thể có quyền quyết định ngữ cảnh**.
+
+Hiểu biết là chủ động, không thụ động.
+
+---
+
+## KIẾN TRÚC DỮ LIỆU NỘI DUNG (HỆ THỐNG DỮ LIỆU)
+
+### NGUYÊN TẮC CỐT LÕI
+
+Toàn bộ nội dung phải được điều khiển từ file dữ liệu ngoài.
+Không hardcode logic quyền con người, số slide hay hành vi hạt.
+
+Engine chỉ đọc dữ liệu.
+Ý nghĩa sinh ra từ cấu hình.
+
+---
+
+## CẤU TRÚC FILE DỮ LIỆU (CẤP CAO)
+
+Mỗi hệ thống xã hội là một **đối tượng dữ liệu**.
+Mỗi đối tượng chứa danh sách **slide** có thứ tự.
+Mỗi slide chỉ định tham số hành vi hạt.
+
+Engine render dùng chung cho mọi hệ thống.
+
+---
+
+## CHỈ MỤC DỮ LIỆU CHỦ
+
 
 ```
 /systems
@@ -420,49 +451,49 @@ The same rendering engine is reused for all systems.
   ├─ communist.json
 ```
 
-The engine loads systems dynamically based on timeline state.
+Engine tải hệ thống động theo trạng thái timeline.
 
 ---
 
-## SYSTEM DATA SCHEMA (ABSTRACT)
+## SCHEMA DỮ LIỆU HỆ THỐNG (TRỪU TƯỢNG)
 
-Each system file MUST define:
+Mỗi file hệ thống PHẢI có:
 
 * systemId
-* systemName (internal only, never rendered)
-* overviewState (particle rules for overview mode)
-* slides[] (ordered array)
+* systemName (chỉ nội bộ, không render)
+* overviewState (quy tắc hạt cho chế độ tổng quan)
+* slides[] (mảng có thứ tự)
 
 ---
 
-## SLIDE DATA SCHEMA (EXTENDED: OVERVIEW → DEEP DIVE)
+## SCHEMA DỮ LIỆU SLIDE (MỞ RỘNG: TỔNG QUAN → ĐÀO SÂU)
 
-Slides are strictly ordered.
+Slide luôn có thứ tự.
 
-### SLIDE TYPE RULE
+### QUY TẮC LOẠI SLIDE
 
-* Slide 0 is ALWAYS an **OVERVIEW SLIDE**
-* Slides 1..N are **DEEP DIVE SLIDES**
+* Slide 0 LUÔN là **SLIDE TỔNG QUAN**
+* Slide 1..N là **SLIDE ĐÀO SÂU**
 
-This rule is mandatory for every system.
+Quy tắc này bắt buộc cho mọi hệ thống.
 
 ---
 
-### OVERVIEW SLIDE (Slide 0)
+### SLIDE TỔNG QUAN (Slide 0)
 
-Purpose:
+Mục đích:
 
-* Provide a holistic, high-level perception of the social system
-* Establish emotional and structural context
+* Tạo cảm nhận tổng thể, cấp cao về hệ thống xã hội
+* Đặt nền tảng cảm xúc và cấu trúc
 
-Characteristics:
+Đặc điểm:
 
-* Lower particle complexity
-* Clear global structure
-* Slower transitions
-* Balanced camera distance
+* Độ phức tạp hạt thấp
+* Cấu trúc toàn cục rõ ràng
+* Chuyển động chậm
+* Khoảng cách camera cân bằng
 
-Required fields:
+Trường bắt buộc:
 
 * slideIndex: 0
 * slideType: "overview"
@@ -471,143 +502,211 @@ Required fields:
 * movementSpeed
 * hierarchyStrength
 
-No evidence, no illustration clusters.
+Không có evidence, không có illustration cluster.
 
 ---
 
-### DEEP DIVE SLIDES (Slide 1..N)
+### SLIDE ĐÀO SÂU (Slide 1..N)
 
-Purpose:
+Mục đích:
 
-* Explore specific aspects of human rights within the system
-* Each slide focuses on ONE concept only
+* Khai thác từng khía cạnh quyền con người trong hệ
+* Mỗi slide chỉ tập trung vào MỘT khái niệm
 
-Characteristics:
+Đặc điểm:
 
-* Higher particle specificity
-* Localized structures
-* Stronger forces or constraints
+* Đặc trưng hạt cao hơn
+* Cấu trúc cục bộ
+* Lực hoặc ràng buộc mạnh hơn
 
-Required fields:
+Trường bắt buộc:
 
 * slideIndex
 * slideType: "detail"
 * focusDomain
 
-Optional fields:
+Trường tùy chọn:
 
 * evidenceClusters
 * illustrationClusters
 
 ---
 
-## EVIDENCE & ILLUSTRATION REPRESENTATION (NON-LITERAL)
+## BIỂU DIỄN EVIDENCE & ILLUSTRATION (PHI MINH HỌA)
 
-### EVIDENCE CLUSTERS (WHEN DATA EXISTS)
+### CỤM EVIDENCE (KHI CÓ DỮ LIỆU)
 
-If the content includes historical evidence or references:
+Nếu nội dung có dẫn chứng lịch sử hoặc tham chiếu:
 
-Represent evidence as:
+Biểu diễn evidence bằng:
 
-* Small, stable particle clusters
-* High coherence
-* Minimal movement
-* Slightly higher brightness
+* Cụm hạt nhỏ, ổn định
+* Độ kết dính cao
+* Chuyển động tối thiểu
+* Sáng hơn một chút
 
-Rules:
+Quy tắc:
 
-* Evidence clusters do NOT dominate
-* They anchor meaning without explicit explanation
-* Quantity reflects strength of evidence, not importance
-
----
-
-### ILLUSTRATION CLUSTERS (HUMAN EXPERIENCE)
-
-If the content includes illustrative examples of human experience:
-
-Represent illustration as:
-
-* Semi-organic particle formations
-* Rhythmic motion
-* Temporary emergence and dissolution
-
-Rules:
-
-* Illustration clusters are dynamic
-* They never form literal shapes (no humans, no symbols)
-* They support intuition, not narration
+* Evidence không lấn át tổng thể
+* Chỉ neo ý nghĩa, không giải thích rõ
+* Số lượng phản ánh độ mạnh dẫn chứng, không phải tầm quan trọng
 
 ---
 
-## SLIDE TRANSITION LOGIC (IMPORTANT)
+### CỤM ILLUSTRATION (TRẢI NGHIỆM CON NGƯỜI)
 
-* Transition from overview → detail: gradual increase in complexity
-* Transition between detail slides: lateral reconfiguration
-* Returning to overview (slide 0): complexity collapses back to global structure
+Nếu nội dung có ví dụ minh họa trải nghiệm con người:
 
-No hard cuts.
-All transitions are interpolated.
+Biểu diễn illustration bằng:
 
----
+* Cụm hạt bán hữu cơ
+* Chuyển động nhịp nhàng
+* Xuất hiện rồi tan biến tạm thời
 
-## DATA VALIDATION RULES
+Quy tắc:
 
-* Every system MUST contain at least 1 overview slide
-* Deep dive slides are optional but ordered
-* If evidenceClusters exist, illustrationClusters may coexist
-* If no evidence is provided, slide relies purely on structural motion
+* Illustration luôn động
+* Không tạo hình cụ thể (không người, không biểu tượng)
+* Chỉ hỗ trợ trực giác, không kể chuyện
 
 ---
 
-## DESIGN INTENT (DO NOT RENDER)
+## LOGIC CHUYỂN SLIDE (QUAN TRỌNG)
 
-This structure ensures:
+* Chuyển từ tổng quan → đào sâu: tăng dần độ phức tạp
+* Chuyển giữa các slide đào sâu: tái cấu trúc ngang
+* Quay về tổng quan (slide 0): độ phức tạp sụp về cấu trúc toàn cục
 
-* Viewers always understand "where they are"
-* Depth is intentional, not overwhelming
-* Evidence supports understanding without breaking abstraction
-
-The narrative breathes: overview → insight → overview.
-
----
-
-## SLIDE BAR GENERATION RULE
-
-* Number of slides = slides.length
-* Slide bar markers are generated automatically
-* Highlight index is bound to active slideIndex
-
-No manual UI configuration is allowed.
+Không cắt cứng.
+Mọi chuyển đổi đều nội suy.
 
 ---
 
-## CONTENT MODE DATA FLOW
+## QUY TẮC KIỂM TRA DỮ LIỆU
 
-1. User enters Content Mode (7 fingers)
-2. Engine loads active system data file
-3. Slide 1 is instantiated from data
-4. Gesture / mouse updates slideIndex
-5. Engine interpolates particle state between slide objects
-
----
-
-## EDITOR FRIENDLY RULES
-
-* Designers can edit JSON without touching code
-* New slides can be added without engine changes
-* Removing slides automatically updates UI
-
-The system scales by data, not logic.
+* Mỗi hệ thống PHẢI có ít nhất 1 slide tổng quan
+* Slide đào sâu là tùy chọn nhưng phải có thứ tự
+* Nếu có evidenceClusters thì illustrationClusters có thể cùng tồn tại
+* Nếu không có evidence, slide chỉ dựa vào chuyển động cấu trúc
 
 ---
 
-## DESIGN INTENT (DO NOT RENDER)
+## Ý ĐỒ THIẾT KẾ (KHÔNG HIỂN THỊ)
 
-This architecture ensures:
+Cấu trúc này đảm bảo:
 
-* Long-term maintainability
-* Ideological neutrality of the engine
-* Clear separation between form (engine) and meaning (data)
+* Người xem luôn biết "đang ở đâu"
+* Độ sâu là chủ động, không áp đảo
+* Dẫn chứng hỗ trợ hiểu mà không phá vỡ tính trừu tượng
 
-The website becomes a **living archive**, not a fixed narrative.
+Mạch truyện thở: tổng quan → đào sâu → tổng quan.
+
+---
+
+## QUY TẮC TẠO THANH SLIDE
+
+* Số slide = slides.length
+* Marker trên thanh slide sinh tự động
+* Chỉ số nổi bật gắn với slideIndex đang hoạt động
+
+Không cấu hình UI thủ công.
+
+---
+
+## LUỒNG DỮ LIỆU CHẾ ĐỘ NỘI DUNG
+
+1. Người dùng vào chế độ nội dung (7 ngón)
+2. Engine tải file dữ liệu hệ thống đang hoạt động
+3. Slide 1 được khởi tạo từ dữ liệu
+4. Cử chỉ / chuột cập nhật slideIndex
+5. Engine nội suy trạng thái hạt giữa các slide
+
+---
+
+## QUY TẮC THÂN THIỆN VỚI BIÊN TẬP VIÊN
+
+* Designer có thể chỉnh JSON mà không cần sửa code
+* Thêm slide mới không cần đổi engine
+* Xóa slide tự động cập nhật UI
+
+Hệ thống mở rộng bằng dữ liệu, không phải logic.
+
+---
+
+## Ý ĐỒ THIẾT KẾ (KHÔNG HIỂN THỊ)
+
+Kiến trúc này đảm bảo:
+
+* Dễ bảo trì lâu dài
+* Engine trung lập về ý thức hệ
+* Phân tách rõ ràng giữa hình thức (engine) và ý nghĩa (dữ liệu)
+
+Website trở thành **lưu trữ sống**, không phải truyện kể cố định.
+
+
+# HƯỚNG DẪN THIẾT KẾ HIỂN THỊ NỘI DUNG DẠNG GRID CARDS (SLIDE FLOW)
+
+## MỤC ĐÍCH
+Phần này định nghĩa cách hiển thị nội dung cho từng chế độ xã hội theo dạng **Grid Cards**, tối ưu cho **điều khiển bằng cử chỉ tay**, trong đó:
+- **KHÔNG có chọn thẻ (select)**
+- **KHÔNG có focus / hover / active trên từng thẻ**
+- Điều hướng **chỉ diễn ra ở cấp độ trang (slide)**
+
+Nội dung được xem như một **dòng chảy slide**, không phải danh sách phần tử tương tác.
+
+---
+
+## VAI TRÒ CỦA GRID CARDS
+- Grid Cards chỉ dùng để:
+  - chia nhỏ nội dung
+  - tạo cấu trúc thị giác rõ ràng
+  - giúp người xem đọc và cảm từ xa
+- Grid Cards **KHÔNG phải menu**
+- Grid Cards **KHÔNG phản hồi tương tác riêng lẻ**
+
+---
+
+## THIẾT KẾ GRID
+
+### Kích thước & Khoảng cách
+- Thẻ có kích thước lớn
+- Khoảng cách giữa các thẻ rộng rãi
+- Bố cục thoáng, dễ nhìn từ xa (1–3m)
+- Tránh chi tiết nhỏ, chữ nhỏ
+
+### Bố cục
+- Grid cố định trong từng slide
+- Có thể sử dụng các cấu trúc:
+  - 2×2
+  - 3×1
+  - 1×3
+- Không thay đổi layout trong cùng một slide
+
+---
+
+## CHUYỂN TRANG (SLIDE TRANSITION)
+- Khi chuyển trang:
+  - Toàn bộ grid di chuyển cùng nhau
+  - Chuyển động rõ hướng (trái/phải hoặc lên/xuống)
+  - Chuyển động mượt, không giật
+
+- Không có hiệu ứng riêng trên từng thẻ
+- Không có trạng thái trung gian gây hiểu nhầm là chọn thẻ
+
+---
+
+## ĐỒ HỌA & PHONG CÁCH
+- Phong cách: Flat Design hoặc Glassmorphism
+- Độ tương phản cao
+- Ưu tiên hình khối lớn, rõ
+- Hạn chế chi tiết tinh tế khó nhận biết bằng camera
+
+---
+
+## ĐIỀU CẤM (RẤT QUAN TRỌNG)
+- ❌ Không hover
+- ❌ Không focus
+- ❌ Không select
+- ❌ Không hiệu ứng click
+- ❌ Không yêu cầu độ chính xác cao từ người dùng
+

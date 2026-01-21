@@ -217,16 +217,116 @@ function renderSlide(idx) {
     // Update UI
     updateSlideBarHighlight();
     
-    // Update Text Description
+    // Update Grid Content
     const overlay = document.getElementById('slide-info-overlay');
     const bg = document.getElementById('slide-bg');
 
     if (overlay) {
-        const txt = document.getElementById('slide-desc');
-        if (txt) txt.innerHTML = slide.desc || "";
+        // 1. Clear previous content
+        overlay.innerHTML = '';
+
+        // Check if this is a video slide
+        if (slide.slideType === 'video' && slide.videoSrc) {
+            // Pause background music
+            const audio = document.getElementById('bg-music');
+            if (audio && !audio.paused) {
+                audio.pause();
+            }
+            
+            // Create iframe for video
+            const iframe = document.createElement('iframe');
+            iframe.src = slide.videoSrc;
+            iframe.style.width = '90%';
+            iframe.style.height = '80%';
+            iframe.style.border = 'none';
+            iframe.style.borderRadius = '12px';
+            iframe.allow = 'autoplay';
+            overlay.style.alignItems = 'center';
+            overlay.style.justifyContent = 'center';
+            overlay.appendChild(iframe);
+            overlay.classList.add('visible-overlay');
+            
+            if (bg) bg.classList.remove('visible');
+            
+            const hint = document.getElementById('slide-hint');
+            if (hint) hint.classList.add('visible');
+
+            const backdrop = document.getElementById('content-backdrop');
+            if (backdrop) backdrop.classList.add('visible');
+            
+            return;
+        }
+
+        // Check if this is a mindmap slide
+        if (slide.slideType === 'mindmap' && slide.iframeSrc) {
+            // Create iframe for mindmap
+            const iframe = document.createElement('iframe');
+            iframe.src = slide.iframeSrc;
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.border = 'none';
+            iframe.style.borderRadius = '0';
+            overlay.appendChild(iframe);
+            overlay.classList.add('visible-overlay');
+            
+            if (bg) bg.classList.remove('visible');
+            
+            const hint = document.getElementById('slide-hint');
+            if (hint) hint.classList.add('visible');
+
+            const backdrop = document.getElementById('content-backdrop');
+            if (backdrop) backdrop.classList.add('visible');
+            
+            return;
+        }
+
+        // Reset overlay styles for normal slides
+        overlay.style.alignItems = '';
+        overlay.style.justifyContent = '';
+
+        // 2. Create the two-column structure
+        const mainContentEl = document.createElement('div');
+        mainContentEl.className = 'main-content-column';
+
+        const gridContainerEl = document.createElement('div');
+        gridContainerEl.className = 'grid-container';
+
+        // 3. Populate Main Content (Left Column)
+        let mainContentHTML = `<h2 class="slide-title-style">${slide.slideTitle || ''}</h2>`;
+        if (slide.mainContent) {
+            if (Array.isArray(slide.mainContent)) {
+                // Join array items with <br> for line breaks
+                mainContentHTML += `<div class='main-desc'>${slide.mainContent.join('<br><br>')}</div>`;
+            } else {
+                mainContentHTML += `<div class='main-desc'>${slide.mainContent}</div>`;
+            }
+        }
+        mainContentEl.innerHTML = mainContentHTML;
+
+        // 4. Populate Grid Content (Right Column)
+        if (slide.layout) {
+            gridContainerEl.style.gridTemplateColumns = slide.layout.columns;
+            gridContainerEl.style.gridTemplateRows = slide.layout.rows;
+        }
+        if (slide.cards && Array.isArray(slide.cards)) {
+            slide.cards.forEach(cardData => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'grid-card';
+                let content = '';
+                if (cardData.title) content += `<h3>${cardData.title}</h3>`;
+                if (cardData.text) content += `<p>${cardData.text}</p>`;
+                cardEl.innerHTML = content;
+                gridContainerEl.appendChild(cardEl);
+            });
+        }
+
+        // 5. Append columns to the overlay
+        overlay.appendChild(mainContentEl);
+        overlay.appendChild(gridContainerEl);
+        
+        // 6. Make everything visible
         overlay.classList.add('visible-overlay');
         
-        // Update BG
         if (bg) {
             if (slide.bgImage) {
                 bg.style.backgroundImage = `url('${slide.bgImage}')`;
