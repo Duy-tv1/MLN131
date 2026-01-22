@@ -225,6 +225,56 @@ function renderSlide(idx) {
         // 1. Clear previous content
         overlay.innerHTML = '';
 
+        // Check if this is an image slide
+        if (slide.slideType === 'image' && slide.imageSrc) {
+            // Create container for title and image
+            const container = document.createElement('div');
+            container.style.display = 'flex';
+            container.style.flexDirection = 'column';
+            container.style.alignItems = 'center';
+            container.style.justifyContent = 'center';
+            container.style.gap = '1rem';
+            container.style.paddingTop = '2rem';
+            
+            // Create title element
+            if (slide.slideTitle) {
+                const title = document.createElement('h2');
+                title.innerText = slide.slideTitle;
+                title.style.fontSize = '1.8rem';
+                title.style.fontWeight = '900';
+                title.style.textTransform = 'uppercase';
+                title.style.letterSpacing = '-0.05em';
+                title.style.color = '#ffffff';
+                title.style.textShadow = '0 0 70px rgba(255,255,255,0.5)';
+                title.style.margin = '0';
+                container.appendChild(title);
+            }
+            
+            // Create image element
+            const img = document.createElement('img');
+            img.src = slide.imageSrc;
+            img.style.maxWidth = '65vw';
+            img.style.maxHeight = '64vh';
+            img.style.objectFit = 'contain';
+            img.style.borderRadius = '12px';
+            container.appendChild(img);
+            
+            overlay.style.alignItems = 'center';
+            overlay.style.justifyContent = 'center';
+            overlay.appendChild(container);
+            overlay.classList.add('visible-overlay');
+            
+            if (bg) bg.classList.remove('visible');
+            
+            const hint = document.getElementById('slide-hint');
+            if (hint) hint.classList.add('visible');
+
+            const backdrop = document.getElementById('content-backdrop');
+            if (backdrop) backdrop.classList.add('visible');
+            
+            return;
+        }
+
         // Check if this is a video slide
         if (slide.slideType === 'video' && slide.videoSrc) {
             // Pause background music

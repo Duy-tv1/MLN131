@@ -18,8 +18,12 @@
       },
       "cards": [
         {
-          "title": "TỔNG QUAN",
-          "text": "Trong CNXH Việt Nam, quyền chính trị được đảm bảo qua các quyền bầu cử, ứng cử vào Quốc hội và Hội đồng nhân dân. Theo tư tưởng Hồ Chí Minh, dân chủ XHCN nghĩa là nhân dân là chủ, có quyền lực cao nhất và quyền Các quyền chính trong CNXH"
+          "title": "",
+          "text": "Quyền con người trong Chủ nghĩa xã hội (XHCN) nhấn mạnh giá trị con người là trung tâm, kết hợp các quyền phổ quát (sống, tự do, hạnh phúc) với các quyền kinh tế-xã hội (giáo dục, y tế, việc làm) và chính trị (bầu cử, ứng cử) trên cơ sở bảo vệ quyền lợi của số đông và xây dựng xã hội công bằng, văn minh, đặt độc lập dân tộc, tự do cá nhân và hạnh phúc nhân dân lên hàng đầu."
+        },
+        {
+          "title": "",
+          "text": "Trong CNXH Việt Nam, quyền chính trị được đảm bảo qua các quyền bầu cử, ứng cử vào Quốc hội và Hội đồng nhân dân. Theo tư tưởng Hồ Chí Minh, dân chủ XHCN nghĩa là nhân dân là chủ, có quyền lực cao nhất."
         }
       ]
     },
@@ -218,15 +222,15 @@
     },
     {
       "slideIndex": 7,
-      "slideType": "video",
-      "slideTitle": "Tự do hay tự lo",
+      "slideType": "image",
+      "slideTitle": "quyền con người ở phương Tây và Việt Nam",
       "mainContent": "",
       "particleCount": 2000,
       "sizeRange": [0.8, 1.2],
       "movementSpeed": 0.2,
       "clusteringLogic": "uniform",
       "attractionRules": { "type": "grid", "strength": 0.5 },
-      "videoSrc": "https://drive.google.com/file/d/1UWeYHlabsi_QdgJsoOgL2NhLSzBeV3Pp/preview"
+      "imageSrc": "img/image1.png"
     }
   ]
 }

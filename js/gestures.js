@@ -40,10 +40,10 @@ class GestureController {
             '8': '🖐 + 🤟 Thoát Chi Tiết (Tổng 8)',
             'exit_content': '🖐 + 🤟 Thoát Chi Tiết (Tổng 8)',
             'enter_content': '🖐 + ✌️ Vào Chi Tiết (Tổng 7)',
-            'fist': '✊ + ✊ Reset',
+            'fist': '✊ + ✊ Timeline',
             'chaos': '👐 Hỗn Mang (2 Bàn Tay Mở)',
              // Fallbacks
-            'reset': '✊ + ✊ Reset',
+            'reset': '✊ + ✊ Timeline',
             'open': 'Chờ tay còn lại...'
         };
     }
