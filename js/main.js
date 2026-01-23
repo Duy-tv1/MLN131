@@ -253,8 +253,8 @@ function renderSlide(idx) {
             // Create image element
             const img = document.createElement('img');
             img.src = slide.imageSrc;
-            img.style.maxWidth = '75vw';
-            img.style.maxHeight = '74vh';
+            img.style.maxWidth = '65vw';
+            img.style.maxHeight = '64vh';
             img.style.objectFit = 'contain';
             img.style.borderRadius = '12px';
             container.appendChild(img);
