@@ -211,14 +211,14 @@
     {
       "slideIndex": 6,
       "slideType": "image",
-      "slideTitle": "quyền con người ở phương Tây và Việt Nam",
+      "slideTitle": "",
       "mainContent": "",
       "particleCount": 2000,
       "sizeRange": [0.8, 1.2],
       "movementSpeed": 0.2,
       "clusteringLogic": "uniform",
       "attractionRules": { "type": "grid", "strength": 0.5 },
-      "imageSrc": "img/image1.png"
+      "imageSrc": "img/image1.jpg"
     },
     {
       "slideIndex": 7,

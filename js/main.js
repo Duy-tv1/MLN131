@@ -234,7 +234,7 @@ function renderSlide(idx) {
             container.style.alignItems = 'center';
             container.style.justifyContent = 'center';
             container.style.gap = '1rem';
-            container.style.paddingTop = '2rem';
+            container.style.paddingTop = '0';
             
             // Create title element
             if (slide.slideTitle) {
@@ -253,8 +253,8 @@ function renderSlide(idx) {
             // Create image element
             const img = document.createElement('img');
             img.src = slide.imageSrc;
-            img.style.maxWidth = '65vw';
-            img.style.maxHeight = '64vh';
+            img.style.maxWidth = '75vw';
+            img.style.maxHeight = '74vh';
             img.style.objectFit = 'contain';
             img.style.borderRadius = '12px';
             container.appendChild(img);
