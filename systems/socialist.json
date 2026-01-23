@@ -210,18 +210,6 @@
     },
     {
       "slideIndex": 6,
-      "slideType": "mindmap",
-      "slideTitle": "Sơ Đồ Tư Duy Quyền Con Người",
-      "mainContent": "Khám phá hệ thống quyền con người XHCN qua sơ đồ tư duy tương tác",
-      "particleCount": 2000,
-      "sizeRange": [0.8, 1.2],
-      "movementSpeed": 0.2,
-      "clusteringLogic": "uniform",
-      "attractionRules": { "type": "grid", "strength": 0.5 },
-      "iframeSrc": "sodotuduy.html"
-    },
-    {
-      "slideIndex": 7,
       "slideType": "image",
       "slideTitle": "quyền con người ở phương Tây và Việt Nam",
       "mainContent": "",
@@ -231,6 +219,18 @@
       "clusteringLogic": "uniform",
       "attractionRules": { "type": "grid", "strength": 0.5 },
       "imageSrc": "img/image1.png"
+    },
+    {
+      "slideIndex": 7,
+      "slideType": "mindmap",
+      "slideTitle": "Sơ Đồ Tư Duy Quyền Con Người",
+      "mainContent": "Khám phá hệ thống quyền con người XHCN qua sơ đồ tư duy tương tác",
+      "particleCount": 2000,
+      "sizeRange": [0.8, 1.2],
+      "movementSpeed": 0.2,
+      "clusteringLogic": "uniform",
+      "attractionRules": { "type": "grid", "strength": 0.5 },
+      "iframeSrc": "sodotuduy.html"
     }
   ]
 }
